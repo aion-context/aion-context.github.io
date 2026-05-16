@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CoWiki: Collaborative Intelligence Without Merge Conflicts — AION Cognitive Substrate</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .back-link { margin-bottom: 0.75rem; }
+    .back-link a {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: var(--blue);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .back-link a:hover { opacity: 0.75; }
+    .article-hero { border-top: 4px solid var(--blue); }
+    .article-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--bdr);
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 0.25rem; }
+    .meta-label {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .meta-val {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .prim-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 1.25rem; }
+    .pchip {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.75rem;
+      padding: 2px 9px;
+      background: var(--parchment-2);
+      color: var(--blue);
+      border: 1px solid var(--bdr);
+    }
+    .cl {
+      font-family: 'Bitter', Georgia, serif;
+      font-size: 0.75rem;
+      font-style: italic;
+      color: var(--text-3);
+    }
+    .finding-list { list-style: none; margin: 0; padding: 0; }
+    .finding-item { align-items: flex-start; }
+    .seal-grid { grid-template-columns: 90px 1fr; }
+    .result-block.dark-block {
+      background: var(--navy-2);
+      color: var(--text-lt);
+    }
+    .result-block.dark-block .result-title { color: oklch(65% 0.14 248); }
+    .result-block.dark-block .hash { color: var(--text-lt2); }
+    .result-block.dark-block .seal-val { color: oklch(65% 0.14 248); }
+    .attr-block {
+      background: oklch(42% 0.14 248 / 0.06);
+      border-left: 3px solid var(--blue);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    .attr-block .attr-title {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 1rem;
+    }
+    .attr-row {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      font-size: 0.9rem;
+    }
+    .attr-item {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .attr-key {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--text-3);
+      flex-shrink: 0;
+      min-width: 7rem;
+    }
+    .attr-val {
+      font-family: 'Bitter', Georgia, serif;
+      color: var(--text-2);
+    }
+    .attr-val a {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: var(--blue);
+      text-decoration: none;
+      word-break: break-all;
+      transition: opacity 0.2s;
+    }
+    .attr-val a:hover { opacity: 0.75; }
+    .insight-block {
+      background: oklch(42% 0.14 248 / 0.07);
+      border: 1px solid oklch(42% 0.14 248 / 0.25);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+    .insight-block .insight-label {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 0.75rem;
+    }
+    .insight-block p {
+      font-family: 'Bitter', Georgia, serif;
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.7;
+      margin: 0;
+    }
+    .score-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.25rem 0;
+      border-bottom: 1px solid var(--bdr);
+      font-size: 0.82rem;
+    }
+    .score-val {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      color: var(--blue);
+      font-weight: 700;
+    }
+    .score-name {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .agent-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.65rem;
+      border: 1px solid oklch(42% 0.14 248 / 0.35);
+      color: var(--blue);
+      background: oklch(42% 0.14 248 / 0.07);
+    }
+    .agent-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--blue);
+      flex-shrink: 0;
+    }
+    .node-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin: 0.5rem 0;
+    }
+    .node-entry {
+      display: grid;
+      grid-template-columns: 7.5rem 1fr;
+      gap: 0.5rem 1rem;
+      align-items: start;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--bdr);
+    }
+    .node-agent {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--blue);
+      padding-top: 0.15rem;
+    }
+    .node-desc {
+      font-family: 'Bitter', Georgia, serif;
+      font-size: 0.88rem;
+      color: var(--text-2);
+      line-height: 1.55;
+      margin-bottom: 0.25rem;
+    }
+    .edge-row {
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--bdr);
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .edge-label {
+      font-family: 'Bitter', Georgia, serif;
+      font-style: italic;
+      color: var(--text-3);
+      font-size: 0.8rem;
+      padding-left: 0.25rem;
+    }
+    .jaccard-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--bdr);
+      flex-wrap: wrap;
+    }
+    .jaccard-score {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.78rem;
+      color: oklch(65% 0.14 248);
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .event-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+      padding: 0.3rem 0;
+      font-size: 0.85rem;
+    }
+    .event-num {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.72rem;
+      color: var(--text-3);
+      flex-shrink: 0;
+      width: 1.5rem;
+    }
+    .event-name {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .site-footer {
+      background: var(--navy);
+      padding: 2rem max(2rem, 8vw);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--bdr-dark);
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-family: 'Bitter', Georgia, serif;
+      font-size: 0.75rem;
+      color: var(--text-lt2);
+    }
+    .site-footer a:hover { color: oklch(65% 0.14 248); }
+  </style>
+</head>
+<body>
+  <nav class="nav scrolled">
+    <a class="nav-logo" href="../">AION</a>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <a href="../#architecture">Architecture</a>
+      <a href="../#primitives">Primitives</a>
+      <a href="../#interface">Interface</a>
+      <a href="../#cases" class="active">Cases</a>
+      <a href="https://github.com/aion-context/aion-fs" class="nav-cta" target="_blank" rel="noopener">GitHub →</a>
+    </div>
+  </nav>
+
+  <div class="article-page">
+    <div class="article-hero" style="border-top: 4px solid var(--blue);">
+      <p class="back-link"><a href="../index.html#cases">← All Cases</a></p>
+      <p class="article-eye">Use Case 01 · Collaborative AI</p>
+      <h1 class="article-title">CoWiki: Collaborative Intelligence Without Merge Conflicts</h1>
+      <p class="article-sub">Multiple AI agents contribute simultaneously to a shared knowledge base. No write locks, no coordinator, no conflicts. AION's semantic graph finds the truth through structure.</p>
+      <div class="article-meta">
+        <span class="meta-item"><span class="meta-label">Primitives</span><span class="meta-val">7 MCP tools</span></span>
+        <span class="meta-item"><span class="meta-label">Agents</span><span class="meta-val">3 concurrent</span></span>
+        <span class="meta-item"><span class="meta-label">Latent Edges</span><span class="meta-val">47 inferred</span></span>
+        <span class="meta-item"><span class="meta-label">Output</span><span class="meta-val">Merged knowledge graph</span></span>
+      </div>
+    </div>
+
+    <div class="article-body">
+
+      <h3>The Problem</h3>
+      <p>Traditional wikis require serialized writes. A central lock arbitrates who can write, one author at a time. When multi-agent systems try to contribute simultaneously, they collide: optimistic concurrency fails on overlapping sections, last-write-wins discards work, and merge conflicts demand a human or coordinator to resolve.</p>
+
+      <p>The serialization assumption is a relic of single-author systems. An AI agent that has synthesized a section on Byzantine fault tolerance should not be blocked waiting for a sibling agent to finish its section on Paxos consensus. These are independent contributions to a shared knowledge structure — the relationship between them is a graph problem, not a scheduling problem.</p>
+
+      <p>CoWiki solves this by treating each agent's contribution as a signed, content-addressed capsule written independently to its own <code>.aion</code> file. No lock is acquired. No coordinator is consulted. Once written, AION's semantic graph merges contributions by discovering structural relationships between them. The graph finds the truth; the agents just write.</p>
+
+      <div class="attr-block" data-anim data-delay="0">
+        <div class="attr-title">Attribution</div>
+        <div class="attr-row">
+          <div class="attr-item">
+            <span class="attr-key">Original concept</span>
+            <span class="attr-val">Paul Shomo</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-key">Prototype</span>
+            <span class="attr-val"><a href="https://github.com/copyleftdev/cowiki-rs" target="_blank" rel="noopener">https://github.com/copyleftdev/cowiki-rs</a></span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-key">Technical writeup</span>
+            <span class="attr-val"><a href="https://gist.github.com/paulshomo/69cf99e3185fa7ad0f50fc0e38bcd424" target="_blank" rel="noopener">https://gist.github.com/paulshomo/69cf99e3185fa7ad0f50fc0e38bcd424</a></span>
+          </div>
+        </div>
+      </div>
+
+      <h3>Session Setup</h3>
+      <p>Three agents are assigned to a collaborative article on distributed consensus algorithms. Each agent operates independently — no shared state, no coordination channel, no awareness of what the other agents are writing. They write in parallel; AION merges their work after the fact.</p>
+
+      <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 1.5rem;">
+        <span class="agent-chip"><span class="agent-dot"></span>agent-alpha</span>
+        <span class="agent-chip"><span class="agent-dot"></span>agent-beta</span>
+        <span class="agent-chip"><span class="agent-dot"></span>agent-gamma</span>
+      </div>
+
+      <p>Each agent is assigned a domain: Byzantine fault tolerance (alpha), Paxos consensus (beta), and Raft leader election (gamma). Their contributions are independent — no agent reads what the others have written before writing its own capsule. When all three have finished, the substrate sees three isolated nodes. The merge happens in the graph layer.</p>
+
+      <h3>Step 1 — Node Creation</h3>
+      <p>Each agent calls <code>aion_annotate</code> to write its contribution as a signed capsule. AION assigns a BLAKE3 content address — the canonical node identifier. No two agents write to the same file. There are no locks because there is nothing to lock against: independent capsules share no mutable state.</p>
+
+      <div class="result-block" data-anim data-delay="0">
+        <div class="result-title">Step 01 · Node Corpus — aion_annotate × 3</div>
+        <div class="prim-chips">
+          <span class="pchip">aion_annotate</span>
+        </div>
+        <div class="node-grid">
+          <div class="node-entry">
+            <span class="node-agent">agent-alpha</span>
+            <div>
+              <div class="node-desc">Contributes section on Byzantine fault tolerance</div>
+              <span class="hash">a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd</span>
+            </div>
+          </div>
+          <div class="node-entry">
+            <span class="node-agent">agent-beta</span>
+            <div>
+              <div class="node-desc">Contributes section on Paxos consensus</div>
+              <span class="hash">b2c3d4e5f6789012345678901234567890123456789012345678901234abcde1</span>
+            </div>
+          </div>
+          <div class="node-entry" style="border-bottom: none;">
+            <span class="node-agent">agent-gamma</span>
+            <div>
+              <div class="node-desc">Contributes section on Raft leader election</div>
+              <span class="hash">c3d4e5f6789012345678901234567890123456789012345678901234abcde1f2</span>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 0.75rem; margin-bottom: 0; font-size: 0.85rem; color: var(--text-2);">All three writes are concurrent. AION assigns each a content address derived from the capsule payload — identical content always produces the same address, making contributions deduplicated by construction.</p>
+      </div>
+
+      <h3>Step 2 — Semantic Linking</h3>
+      <p>Once nodes exist, the graph layer draws associations between related concepts. <code>aion_link</code> creates directed, typed edges. In this session an orchestrating pass encodes the known conceptual relationships: both alpha and gamma require quorum; Paxos generalizes the ideas Raft makes concrete; all three sections discuss safety under failure.</p>
+
+      <div class="result-block" data-anim data-delay="1">
+        <div class="result-title">Step 02 · Semantic Linking — aion_link × 3</div>
+        <div class="prim-chips">
+          <span class="pchip">aion_link</span>
+        </div>
+        <div class="edge-row">
+          <div class="chain">
+            <span class="cn cn-blue">alpha-node</span>
+            <span class="ca">→</span>
+            <span class="cn cn-blue">beta-node</span>
+          </div>
+          <span class="edge-label">[semantic] "both address consensus safety"</span>
+        </div>
+        <div class="edge-row">
+          <div class="chain">
+            <span class="cn cn-blue">beta-node</span>
+            <span class="ca">→</span>
+            <span class="cn cn-blue">gamma-node</span>
+          </div>
+          <span class="edge-label">[semantic] "Paxos generalizes Raft"</span>
+        </div>
+        <div class="edge-row" style="border-bottom: none;">
+          <div class="chain">
+            <span class="cn cn-blue">alpha-node</span>
+            <span class="ca">→</span>
+            <span class="cn cn-blue">gamma-node</span>
+          </div>
+          <span class="edge-label">[semantic] "both require quorum"</span>
+        </div>
+        <p style="margin-top: 0.75rem; margin-bottom: 0; font-size: 0.85rem; color: var(--text-2);">Three explicit edges form the initial skeleton of the merged knowledge graph. The links are typed and labelled — the substrate knows not just that two nodes are related, but why.</p>
+      </div>
+
+      <h3>Step 3 — Context Retrieval</h3>
+      <p>A downstream consumer — a reader agent, a synthesis pass, or a search interface — issues a query against the merged graph. <code>aion_query</code> performs semantic retrieval across all contributing agents' nodes simultaneously, returning ranked hits weighted by relevance. The query engine is unaware of which agent authored which node: it sees one coherent corpus.</p>
+
+      <div class="result-block" data-anim data-delay="0">
+        <div class="result-title">Step 03 · Semantic Retrieval — aion_query "fault tolerance"</div>
+        <div class="prim-chips">
+          <span class="pchip">aion_query</span>
+        </div>
+        <div style="margin-bottom: 0.25rem;">
+          <div class="score-row">
+            <span class="score-name">alpha-node <span style="font-weight: 400; color: var(--text-3); font-size: 0.78rem;">· Byzantine fault tolerance</span></span>
+            <span class="score-val">0.94</span>
+          </div>
+          <div class="score-row">
+            <span class="score-name">gamma-node <span style="font-weight: 400; color: var(--text-3); font-size: 0.78rem;">· Raft leader election</span></span>
+            <span class="score-val">0.71</span>
+          </div>
+          <div class="score-row" style="border-bottom: none;">
+            <span class="score-name">beta-node <span style="font-weight: 400; color: var(--text-3); font-size: 0.78rem;">· Paxos consensus</span></span>
+            <span class="score-val">0.63</span>
+          </div>
+        </div>
+        <p style="margin-top: 0.75rem; margin-bottom: 0; font-size: 0.85rem; color: var(--text-2);">All three agent contributions are discovered and ranked in a single query pass. The merged graph is transparent to the consumer — it behaves identically to a graph written by a single coordinated author.</p>
+      </div>
+
+      <h3>Step 4 — Dream Pass</h3>
+      <p>The explicit links encode what the linking agent knew to encode. The latent structure of the knowledge graph contains more. <code>aion_dream</code> propagates spreading activation from all known nodes, scores every candidate edge the explicit link set does not yet cover, and materializes those scoring above the threshold. Relationships emerge from structural proximity alone — no agent needed to name them.</p>
+
+      <div class="result-block" data-anim data-delay="1">
+        <div class="result-title">Step 04 · Latent Edge Discovery — aion_dream threshold=0.28</div>
+        <div class="prim-chips">
+          <span class="pchip">aion_dream</span>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--text-2); margin-bottom: 0.75rem;">47 latent edges inferred above the 0.28 threshold. Decisive findings:</p>
+        <div class="jaccard-row">
+          <div class="chain" style="flex-shrink: 0;">
+            <span class="cn cn-blue">alpha-node</span>
+            <span class="ca">↔</span>
+            <span class="cn cn-blue">gamma-node</span>
+          </div>
+          <span class="jaccard-score">Jaccard 0.41</span>
+          <span class="cl">both discuss quorum majority</span>
+        </div>
+        <div class="jaccard-row" style="border-bottom: none;">
+          <div class="chain" style="flex-shrink: 0;">
+            <span class="cn cn-blue">beta-node</span>
+            <span class="ca">↔</span>
+            <span class="cn cn-blue">alpha-node</span>
+          </div>
+          <span class="jaccard-score">Jaccard 0.33</span>
+          <span class="cl">both cite Lamport's 1978 paper</span>
+        </div>
+        <p style="margin-top: 0.75rem; margin-bottom: 0; font-size: 0.85rem; color: var(--text-2);">The dream pass surfaces relationships no agent explicitly encoded. The alpha–gamma quorum connection and the beta–alpha Lamport citation were latent in the activation topology, discovered without any agent labelling them. This is the substrate augmenting agent knowledge rather than merely storing it.</p>
+      </div>
+
+      <h3>Step 5 — Journal Episode</h3>
+      <p>The full merge sequence is recorded as a temporal episode. <code>aion_journal_append</code> writes an ordered, cryptographically chained log of every event in the session — individual agent writes, the dream pass, and the context merge. This provides a reproducible, auditable record of exactly how the merged knowledge base was constructed.</p>
+
+      <div class="result-block" data-anim data-delay="0">
+        <div class="result-title">Step 05 · Temporal Episode — aion_journal_append</div>
+        <div class="prim-chips">
+          <span class="pchip">aion_journal_append</span>
+        </div>
+        <div style="margin-bottom: 0.75rem;">
+          <div style="font-family: 'Archivo', sans-serif; font-weight: 700; font-size: 0.75rem; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem;">Episode · cowiki-session-001</div>
+          <div class="event-row">
+            <span class="event-num">01</span>
+            <span class="event-name">agent-alpha-write</span>
+          </div>
+          <div class="event-row">
+            <span class="event-num">02</span>
+            <span class="event-name">agent-beta-write</span>
+          </div>
+          <div class="event-row">
+            <span class="event-num">03</span>
+            <span class="event-name">agent-gamma-write</span>
+          </div>
+          <div class="event-row">
+            <span class="event-num">04</span>
+            <span class="event-name">dream-pass</span>
+          </div>
+          <div class="event-row">
+            <span class="event-num">05</span>
+            <span class="event-name">context-merged</span>
+          </div>
+        </div>
+        <p style="margin-bottom: 0; font-size: 0.85rem; color: var(--text-2);">Each event references the BLAKE3 address of the node it acted on. A future reader can reconstruct the exact state of the knowledge base at any point in the session — including the intermediate state before the dream pass ran.</p>
+      </div>
+
+      <h3>Step 6 — Snapshot Seal</h3>
+      <p>Once the merge is complete and the dream pass has densified the graph, the merged knowledge base is sealed. <code>aion_snapshot</code> computes a BLAKE3-chained digest of the full node and edge set, signs it with Ed25519, and returns an immutable truth checkpoint. Any subsequent mutation — accidental or adversarial — will produce a different digest. The seal is the proof of what the graph contained at the moment of merge.</p>
+
+      <div class="result-block dark-block" data-anim data-delay="0">
+        <div class="result-title">Step 06 · aion_snapshot · Merged Knowledge Seal</div>
+        <div class="seal-grid" style="grid-template-columns: 90px 1fr;">
+          <span class="seal-key">Digest</span>
+          <span class="seal-val">7f3a9b2c1d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a</span>
+          <span class="seal-key">Signature</span>
+          <span class="seal-val">8d4f2a1b3c5e7d9f0a2b4c6d8e0f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f</span>
+          <span class="seal-key">Nodes</span>
+          <span class="seal-val">47</span>
+          <span class="seal-key">Edges</span>
+          <span class="seal-val">203</span>
+          <span class="seal-key">Valid</span>
+          <span class="seal-val">true</span>
+        </div>
+        <div class="valid-badge" style="margin-top: 1rem;">
+          <span class="valid-dot"></span>
+          <span class="valid-text">Signature valid · Ed25519 · BLAKE3-chained</span>
+        </div>
+      </div>
+
+      <h3>Key Findings</h3>
+      <ul class="finding-list">
+        <li class="finding-item">
+          <span class="f-num">01</span>
+          <span><strong>Zero write conflicts across three concurrent agents.</strong> Each agent wrote to its own capsule with no lock acquisition. Concurrency is structurally guaranteed — there is no shared mutable state to conflict on.</span>
+        </li>
+        <li class="finding-item">
+          <span class="f-num">02</span>
+          <span><strong>Semantic merge without a coordinator.</strong> The graph layer merged three independent contributions through typed links and spreading activation. No central process negotiated the merge. The structure did.</span>
+        </li>
+        <li class="finding-item">
+          <span class="f-num">03</span>
+          <span><strong>Dream pass discovered two relationships no agent explicitly encoded.</strong> The alpha–gamma quorum connection and the beta–alpha Lamport citation were latent in the activation topology, surfaced without any agent labelling them.</span>
+        </li>
+        <li class="finding-item">
+          <span class="f-num">04</span>
+          <span><strong>Full session is reproducible and auditable.</strong> The journal records every event in order. The snapshot seals the final state. Any party can verify that the merged graph is exactly what was produced by this session and nothing else.</span>
+        </li>
+        <li class="finding-item">
+          <span class="f-num">05</span>
+          <span><strong>Retrieval is agent-agnostic.</strong> The query engine returned ranked results without distinguishing which agent authored which node. The merged knowledge base behaves as a single coherent corpus from the consumer's perspective.</span>
+        </li>
+      </ul>
+
+      <div class="insight-block" data-anim data-delay="0">
+        <div class="insight-label">Core Insight</div>
+        <p>No locks, no conflicts, no coordinator. Each agent writes freely to its own signed capsule; the graph finds the truth through structure. AION makes multi-agent collaboration feel like git — distributed, signed, mergeable — but at the semantic level rather than the line-diff level. Two agents can write overlapping sections on the same topic and the substrate will surface their relationship as a graph property rather than a merge conflict requiring human resolution.</p>
+      </div>
+
+      <h3>Implementation</h3>
+      <p>Paul Shomo's original CoWiki concept is prototyped in <a href="https://github.com/copyleftdev/cowiki-rs" target="_blank" rel="noopener" style="color: var(--blue); text-decoration: none;">cowiki-rs</a>, a Rust implementation that wires the multi-agent write pattern to an AION-compatible substrate. The prototype demonstrates that the lock-free write model is not merely theoretical — three concurrent threads write independent capsules, the graph layer merges them, and the dream pass runs as a post-write reconciliation step that densifies what the explicit links did not fully express.</p>
+
+      <p>The full technical analysis of the design — including the formal argument for why content-addressed capsules eliminate write conflicts by construction — is documented in the <a href="https://gist.github.com/paulshomo/69cf99e3185fa7ad0f50fc0e38bcd424" target="_blank" rel="noopener" style="color: var(--blue); text-decoration: none;">original technical writeup</a>.</p>
+
+      <div class="attr-block" data-anim data-delay="0" style="margin-top: 2.5rem;">
+        <div class="attr-title">References</div>
+        <div class="attr-row">
+          <div class="attr-item">
+            <span class="attr-key">Concept &amp; design</span>
+            <span class="attr-val">Paul Shomo</span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-key">Prototype (Rust)</span>
+            <span class="attr-val"><a href="https://github.com/copyleftdev/cowiki-rs" target="_blank" rel="noopener">github.com/copyleftdev/cowiki-rs</a></span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-key">Technical writeup</span>
+            <span class="attr-val"><a href="https://gist.github.com/paulshomo/69cf99e3185fa7ad0f50fc0e38bcd424" target="_blank" rel="noopener">gist.github.com/paulshomo/69cf99e3185fa7ad0f50fc0e38bcd424</a></span>
+          </div>
+          <div class="attr-item">
+            <span class="attr-key">AION substrate</span>
+            <span class="attr-val"><a href="https://github.com/aion-context/aion-fs" target="_blank" rel="noopener">github.com/aion-context/aion-fs</a></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>AION Cognitive Substrate · v0.5 · 2026</span>
+    <a href="../index.html#cases" style="color: inherit;">← Back to all cases</a>
+  </footer>
+  <script src="../js/main.js"></script>
+</body>
+</html>

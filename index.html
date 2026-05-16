@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AION — A unified memory and reasoning fabric for autonomous agents.">
+  <title>AION — Cognitive Substrate for Autonomous Agents</title>
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav">
+    <a class="nav-logo" href="#">AION</a>
+    <button class="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="nav-links">
+      <a href="#architecture">Architecture</a>
+      <a href="#primitives">Primitives</a>
+      <a href="#interface">Interface</a>
+      <a href="#cases">Cases</a>
+      <a href="https://github.com/aion-context/aion-fs" class="nav-cta" target="_blank" rel="noopener">GitHub →</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-content">
+      <span class="hero-eye">Cognitive Substrate · v0.5</span>
+      <h1 class="hero-title">AION</h1>
+      <p class="hero-tagline">A unified memory and reasoning fabric<br>for autonomous agents.</p>
+      <ul class="hero-pills">
+        <li class="hero-pill"><span class="pill-dot"></span><span class="pill-text">Persistent, signed, content-addressed memory</span></li>
+        <li class="hero-pill"><span class="pill-dot"></span><span class="pill-text">Semantic knowledge graph with temporal chains</span></li>
+        <li class="hero-pill"><span class="pill-dot"></span><span class="pill-text">Spreading activation &amp; latent link inference</span></li>
+        <li class="hero-pill"><span class="pill-dot"></span><span class="pill-text">Policy enforcement — allow, deny, audit</span></li>
+        <li class="hero-pill"><span class="pill-dot"></span><span class="pill-text">BLAKE3 + Ed25519 tamper-evident snapshots</span></li>
+      </ul>
+      <a class="hero-cta-link" href="#problem">Explore the substrate ↓</a>
+    </div>
+    <div class="hero-scroll">
+      <span>scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section id="problem">
+    <div class="sec-head">
+      <p class="eye" data-anim data-delay="0">The Challenge</p>
+      <h2 class="sec-title" data-anim data-delay="1">AI agents can reason.<br>They cannot remember.</h2>
+      <div class="sec-rule" data-anim data-delay="2"></div>
+      <p class="sec-intro" data-anim data-delay="3">The problem is not intelligence. The problem is coherence. Every session starts from zero — no persistent identity, no verifiable record, no structured understanding of how knowledge relates across time.</p>
+    </div>
+    <div class="problem-cards">
+      <div class="problem-card problem-card--memory" data-anim="scale" data-delay="1">
+        <div class="card-num">01</div>
+        <div class="card-name">No Memory</div>
+        <p class="card-body">Each session is stateless. Knowledge from one conversation is unavailable in the next. RAG retrieves blobs — it cannot reason over structure.</p>
+      </div>
+      <div class="problem-card problem-card--identity" data-anim="scale" data-delay="2">
+        <div class="card-num">02</div>
+        <div class="card-name">No Identity</div>
+        <p class="card-body">Who created this? When? Has it been modified? There is no provenance, no authorship, no tamper-evidence baked into the data layer.</p>
+      </div>
+      <div class="problem-card problem-card--reasoning" data-anim="scale" data-delay="3">
+        <div class="card-num">03</div>
+        <div class="card-name">No Reasoning Substrate</div>
+        <p class="card-body">Documents live as blobs. There is no representation of causal chains, temporal sequences, contradictions, or community structure.</p>
+      </div>
+    </div>
+    <div class="answer-block" data-anim data-delay="2">
+      <p class="answer-label">AION solves this with five primitives</p>
+      <div class="answer-pills">
+        <span class="answer-pill">File</span>
+        <span class="answer-pill">Link</span>
+        <span class="answer-pill">Context</span>
+        <span class="answer-pill">Journal</span>
+        <span class="answer-pill">Snapshot</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ARCHITECTURE -->
+  <section id="architecture" class="dark">
+    <div class="sec-head">
+      <p class="eye" data-anim>The Stack</p>
+      <h2 class="sec-title" data-anim data-delay="1">Five layers.<br>One substrate.</h2>
+      <div class="sec-rule" data-anim data-delay="2"></div>
+      <p class="sec-intro" data-anim data-delay="3">Agents interact exclusively through the MCP interface at Layer 01 — they never address the storage or cryptographic primitives directly.</p>
+    </div>
+    <div class="arch-layers">
+      <div class="arch-layer l1" data-anim="slide-left" data-delay="1">
+        <span class="layer-num">Layer 01</span>
+        <span class="layer-name">Agents &amp; LLMs</span>
+        <span class="layer-detail">Chat · Research · Code · Data · Security · Human Operators</span>
+        <span class="layer-badge">MCP Consumers</span>
+      </div>
+      <div class="arch-layer l2" data-anim="slide-left" data-delay="2">
+        <span class="layer-num">Layer 02</span>
+        <span class="layer-name">AION Context Engine</span>
+        <span class="layer-detail">Retrieval · Attention · Milestone Scoring · Memory Decay · Policy</span>
+        <span class="layer-badge">aion-engine</span>
+      </div>
+      <div class="arch-layer l3" data-anim="slide-left" data-delay="3">
+        <span class="layer-num">Layer 03</span>
+        <span class="layer-name">AION Graph</span>
+        <span class="layer-detail">Semantic Links · Temporal Chains · Path Inference · Community Detection · Contradiction</span>
+        <span class="layer-badge">aion-graph</span>
+      </div>
+      <div class="arch-layer l4" data-anim="slide-left" data-delay="4">
+        <span class="layer-num">Layer 04</span>
+        <span class="layer-name">AION Object Store</span>
+        <span class="layer-detail">.aion files · Ed25519 + BLAKE3 · KeyRegistry · XChaCha20-Poly1305</span>
+        <span class="layer-badge">aion-context</span>
+      </div>
+      <div class="arch-layer l5" data-anim="slide-left" data-delay="5">
+        <span class="layer-num">Layer 05</span>
+        <span class="layer-name">Linux FS Primitives</span>
+        <span class="layer-detail">Ext4 · ZFS · BTRFS · NVMe / SSD · Substrate</span>
+        <span class="layer-badge">kernel</span>
+      </div>
+    </div>
+    <div class="arch-footer" data-anim data-delay="3">
+      <div class="arch-mandate"><span class="mandate-label">Language</span><span class="mandate-val">Rust · stable toolchain · no unsafe</span></div>
+      <div class="arch-mandate"><span class="mandate-label">Async</span><span class="mandate-val">None — synchronous I/O throughout</span></div>
+      <div class="arch-mandate"><span class="mandate-label">Style</span><span class="mandate-val">Tiger Style + NASA Power of 10</span></div>
+      <div class="arch-mandate"><span class="mandate-label">Interface</span><span class="mandate-val">MCP-first · HTTP and CLI are secondary</span></div>
+    </div>
+  </section>
+
+  <!-- PRIMITIVES -->
+  <section id="primitives">
+    <div class="sec-head">
+      <p class="eye" data-anim>Core Primitives</p>
+      <h2 class="sec-title" data-anim data-delay="1">Five primitives.<br>Infinite composition.</h2>
+      <div class="sec-rule" data-anim data-delay="2"></div>
+      <p class="sec-intro" data-anim data-delay="3">Every AION capability — from a collaborative wiki to a forensic AML investigation — is built from the same five primitives. Complexity emerges from their composition.</p>
+    </div>
+    <div class="prim-grid">
+      <div class="prim-card" data-anim="scale" data-delay="1">
+        <div class="prim-n">01</div>
+        <div class="prim-name">File</div>
+        <p class="prim-def">An annotated, content-addressed blob backed by a <code>.aion</code> capsule. Any bytes: text, image, code. Signed at creation. Identified by its BLAKE3 hash — the content <em>is</em> the address.</p>
+      </div>
+      <div class="prim-card" data-anim="scale" data-delay="2">
+        <div class="prim-n">02</div>
+        <div class="prim-name">Link</div>
+        <p class="prim-def">A directed, typed edge in the knowledge graph. Four kinds: <strong>causal</strong>, <strong>temporal</strong>, <strong>semantic</strong>, <strong>provenance</strong>. Links give nodes meaning in relation to other nodes.</p>
+      </div>
+      <div class="prim-card" data-anim="scale" data-delay="3">
+        <div class="prim-n">03</div>
+        <div class="prim-name">Context</div>
+        <p class="prim-def">A named lens over the graph — a curated subset of nodes. Contexts scope investigations, retrievals, and domains. Denied nodes are filtered automatically.</p>
+      </div>
+      <div class="prim-card" data-anim="scale" data-delay="4">
+        <div class="prim-n">04</div>
+        <div class="prim-name">Journal</div>
+        <p class="prim-def">An ordered temporal sequence of events — an episode. Journals capture what happened, when, and in what order. Append-only; entries are immutable.</p>
+      </div>
+      <div class="prim-card" data-anim="scale" data-delay="5">
+        <div class="prim-n">05</div>
+        <div class="prim-name">Snapshot</div>
+        <p class="prim-def">A signed truth checkpoint. BLAKE3 hash of the entire graph state, signed with Ed25519, inserted as a provenance node. Tamper-evident chain of custody.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FORMAT -->
+  <section id="format" class="dark">
+    <div class="sec-head">
+      <p class="eye" data-anim>The Storage Layer</p>
+      <h2 class="sec-title" data-anim data-delay="1">Cryptographic identity<br>baked in at rest.</h2>
+      <div class="sec-rule" data-anim data-delay="2"></div>
+    </div>
+    <div class="format-grid">
+      <div class="crypto-side" data-anim data-delay="1">
+        <h3 class="subsec-title">Cryptographic Primitives</h3>
+        <div class="crypto-rows">
+          <div class="crypto-row">
+            <span class="crypto-algo">Ed25519</span>
+            <span class="crypto-role">Digital Signatures</span>
+            <span class="crypto-why">Every capsule is signed. Verification is constant-time — no early-exit on byte comparison. Keys are zeroized on drop.</span>
+          </div>
+          <div class="crypto-row">
+            <span class="crypto-algo">BLAKE3</span>
+            <span class="crypto-role">Content Addressing</span>
+            <span class="crypto-why">The NodeId is the BLAKE3 hash of the payload. Identical content = identical id. Snapshot digests chain BLAKE3 over full graph state.</span>
+          </div>
+          <div class="crypto-row">
+            <span class="crypto-algo">XChaCha20‑Poly1305</span>
+            <span class="crypto-role">Authenticated Encryption</span>
+            <span class="crypto-why">At-rest encryption. 192-bit nonces, randomly generated per encryption, never reused. AEAD: tampering detected on decryption.</span>
+          </div>
+          <div class="crypto-row">
+            <span class="crypto-algo">ML-DSA</span>
+            <span class="crypto-role">Post-Quantum Signing</span>
+            <span class="crypto-why">CRYSTALS-Dilithium. NIST-standardized. Available as an upgrade path when quantum resistance is required.</span>
+          </div>
+        </div>
+        <div class="crypto-rules" data-anim data-delay="3">
+          <p class="rules-head">Non-negotiable security rules</p>
+          <p>No cryptographic primitive implemented from scratch — all from the RustCrypto ecosystem. All key material is <code>zeroize</code>d on drop. Test vectors from RFC/NIST are included for every function.</p>
+        </div>
+      </div>
+      <div class="capsule-side" data-anim data-delay="2">
+        <h3 class="subsec-title">The .aion Capsule</h3>
+        <div class="capsule">
+          <div class="cap-header">
+            <span class="cap-name">.aion CAPSULE</span>
+            <span class="cap-sub">content-addressed · signed · portable</span>
+          </div>
+          <div class="cap-field cf-id"><span class="cf-label">NODE ID (64 hex)</span><span class="cf-desc">BLAKE3( payload ) — deterministic, collision-resistant</span></div>
+          <div class="cap-field cf-sig"><span class="cf-label">ED25519 SIGNATURE</span><span class="cf-desc">sign( private_key, node_id ) — constant-time verify</span></div>
+          <div class="cap-field cf-meta"><span class="cf-label">METADATA</span><span class="cf-desc">kind · tags · timestamp · author_key · annotations</span></div>
+          <div class="cap-field cf-pay"><span class="cf-label">PAYLOAD</span><span class="cf-desc">Raw bytes — XChaCha20-Poly1305 if encrypted</span></div>
+          <div class="cap-field cf-pub"><span class="cf-label">PUBLIC KEY</span><span class="cf-desc">64 hex chars · KeyRegistry lookup · cross-verifiable</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERFACE -->
+  <section id="interface">
+    <div class="sec-head">
+      <p class="eye" data-anim>MCP Interface</p>
+      <h2 class="sec-title" data-anim data-delay="1">Eighteen tools.<br>One coherent interface.</h2>
+      <div class="sec-rule" data-anim data-delay="2"></div>
+      <p class="sec-intro" data-anim data-delay="3">Every primitive, every analytic, every policy action is a typed MCP call. Agents compose these tools the same way a developer composes functions.</p>
+    </div>
+    <div class="tool-cats">
+      <div data-anim data-delay="1">
+        <div class="cat-head">Graph Topology &amp; Traversal</div>
+        <div class="tool-row"><span class="tool-name">aion_annotate</span><span class="tool-desc">Create a new node from a payload string, storing it as a signed .aion capsule</span><span class="tool-tag tt-graph">Graph</span></div>
+        <div class="tool-row"><span class="tool-name">aion_link</span><span class="tool-desc">Create a typed directed edge — causal / temporal / semantic / provenance</span><span class="tool-tag tt-graph">Graph</span></div>
+        <div class="tool-row"><span class="tool-name">aion_path</span><span class="tool-desc">Shortest path between two nodes; returns each hop and edge kind</span><span class="tool-tag tt-graph">Graph</span></div>
+        <div class="tool-row"><span class="tool-name">aion_impact</span><span class="tool-desc">Forward or backward blast radius from a node across N hops</span><span class="tool-tag tt-graph">Graph</span></div>
+        <div class="tool-row"><span class="tool-name">aion_community</span><span class="tool-desc">Label-propagation community detection — cluster membership for all nodes</span><span class="tool-tag tt-graph">Graph</span></div>
+        <div class="tool-row"><span class="tool-name">aion_contradictions</span><span class="tool-desc">Detect temporal cycles — edges forming impossible chronological loops</span><span class="tool-tag tt-graph">Graph</span></div>
+      </div>
+      <div data-anim data-delay="2">
+        <div class="cat-head">Intelligence &amp; Inference</div>
+        <div class="tool-row"><span class="tool-name">aion_recall</span><span class="tool-desc">Spreading activation from seed nodes — surfaces structurally related nodes</span><span class="tool-tag tt-intel">Intel</span></div>
+        <div class="tool-row"><span class="tool-name">aion_dream</span><span class="tool-desc">Graph densification by Jaccard similarity — infers latent edges above threshold</span><span class="tool-tag tt-intel">Intel</span></div>
+        <div class="tool-row"><span class="tool-name">aion_query</span><span class="tool-desc">Semantic search over node payloads within a named context</span><span class="tool-tag tt-intel">Intel</span></div>
+      </div>
+      <div data-anim data-delay="3">
+        <div class="cat-head">Context &amp; Knowledge Management</div>
+        <div class="tool-row"><span class="tool-name">aion_context_add</span><span class="tool-desc">Add a node to a named context (creates the context if it doesn't exist)</span><span class="tool-tag tt-know">Know</span></div>
+        <div class="tool-row"><span class="tool-name">aion_context_get</span><span class="tool-desc">Retrieve all non-denied member NodeIds for a named context</span><span class="tool-tag tt-know">Know</span></div>
+        <div class="tool-row"><span class="tool-name">aion_milestones</span><span class="tool-desc">Return nodes flagged as milestones — high-significance checkpoints</span><span class="tool-tag tt-know">Know</span></div>
+      </div>
+      <div data-anim data-delay="4">
+        <div class="cat-head">Temporal · Policy · Audit</div>
+        <div class="tool-row"><span class="tool-name">aion_journal_append</span><span class="tool-desc">Append an event to a named temporal journal</span><span class="tool-tag tt-time">Temporal</span></div>
+        <div class="tool-row"><span class="tool-name">aion_journal_read</span><span class="tool-desc">Read entries from a journal, optionally filtered by time range</span><span class="tool-tag tt-time">Temporal</span></div>
+        <div class="tool-row"><span class="tool-name">aion_allow</span><span class="tool-desc">Add a node to the runtime allow-list for restricted contexts</span><span class="tool-tag tt-pol">Policy</span></div>
+        <div class="tool-row"><span class="tool-name">aion_deny</span><span class="tool-desc">Add a node to the deny-list — excluded from all future queries and traversals</span><span class="tool-tag tt-pol">Policy</span></div>
+        <div class="tool-row"><span class="tool-name">aion_snapshot</span><span class="tool-desc">BLAKE3-hash the graph state, sign with Ed25519, insert as a provenance node</span><span class="tool-tag tt-audit">Audit</span></div>
+        <div class="tool-row"><span class="tool-name">aion_verify</span><span class="tool-desc">Verify an Ed25519 signature over a BLAKE3 digest — confirm graph authenticity</span><span class="tool-tag tt-audit">Audit</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES -->
+  <section id="cases" class="dark">
+    <div class="sec-head">
+      <p class="eye" data-anim>Discovered Use Cases</p>
+      <h2 class="sec-title" data-anim data-delay="1">Four domains.<br>One substrate.</h2>
+      <div class="sec-rule" data-anim data-delay="2"></div>
+      <p class="sec-intro" data-anim data-delay="3">The same eighteen MCP tools power completely different domains. No domain-specific logic is baked into the substrate. The primitives compose.</p>
+    </div>
+    <div class="cases-grid">
+      <a href="cases/cowiki.html" class="case-card" data-anim="scale" data-delay="1">
+        <span class="case-num cn-blue">Use Case 01</span>
+        <h3 class="case-title">CoWiki</h3>
+        <p class="case-domain">Collaborative Knowledge</p>
+        <p class="case-desc">Content-addressed collaborative wiki — every page a signed .aion capsule. Zero central servers. BLAKE3 is the URL. Ed25519 is the author. Built by Paul Shomo.</p>
+        <div class="case-prims">
+          <span class="case-prim">aion_annotate</span><span class="case-prim">aion_link</span><span class="case-prim">aion_snapshot</span>
+        </div>
+        <span class="case-arrow">Read the case →</span>
+      </a>
+      <a href="cases/nightshift.html" class="case-card" data-anim="scale" data-delay="2">
+        <span class="case-num cn-red">Use Case 02</span>
+        <h3 class="case-title">Operation NightShift</h3>
+        <p class="case-domain">Security Intelligence</p>
+        <p class="case-desc">Attack chain tracing, blast radius quantification, affected cluster detection. A complete forensic investigation timeline — signed and reproducible.</p>
+        <div class="case-prims">
+          <span class="case-prim">aion_path</span><span class="case-prim">aion_impact</span><span class="case-prim">aion_recall</span>
+        </div>
+        <span class="case-arrow">Read the case →</span>
+      </a>
+      <a href="cases/formulary.html" class="case-card" data-anim="scale" data-delay="3">
+        <span class="case-num cn-green">Use Case 03</span>
+        <h3 class="case-title">Nexivarel Formulary</h3>
+        <p class="case-domain">Pharmaceutical Integrity</p>
+        <p class="case-desc">14 adverse events traced back through a 6-step approval chain to a manufacturer submission. Conflicted committee members denied. FDA MedWatch ready.</p>
+        <div class="case-prims">
+          <span class="case-prim">aion_path</span><span class="case-prim">aion_impact</span><span class="case-prim">aion_deny</span>
+        </div>
+        <span class="case-arrow">Read the case →</span>
+      </a>
+      <a href="cases/shell-game.html" class="case-card" data-anim="scale" data-delay="4">
+        <span class="case-num cn-copper">Use Case 04</span>
+        <h3 class="case-title">Operation Shell Game</h3>
+        <p class="case-domain">Anti-Money Laundering</p>
+        <p class="case-desc">Beneficial ownership recovered from graph structure alone. KYC fraud detected as a temporal cycle. Shell ring confirmed by community detection. FinCEN SAR sealed.</p>
+        <div class="case-prims">
+          <span class="case-prim">aion_dream</span><span class="case-prim">aion_community</span><span class="case-prim">aion_contradictions</span>
+        </div>
+        <span class="case-arrow">Read the case →</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- MATRIX -->
+  <section id="matrix">
+    <div class="sec-head">
+      <p class="eye" data-anim>Capability Matrix</p>
+      <h2 class="sec-title" data-anim data-delay="1">Every domain.<br>The same tools.</h2>
+      <div class="sec-rule" data-anim data-delay="2"></div>
+    </div>
+    <div class="matrix-wrap" data-anim data-delay="1">
+      <table class="matrix">
+        <thead>
+          <tr>
+            <th>MCP Tool</th>
+            <th>CoWiki</th>
+            <th>NightShift</th>
+            <th>Formulary</th>
+            <th>Shell Game</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>aion_annotate</td>       <td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_link</td>           <td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_path</td>           <td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_impact</td>         <td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_community</td>      <td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_contradictions</td> <td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_recall</td>         <td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_dream</td>          <td><span class="m-no">–</span></td><td><span class="m-no">–</span></td><td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_query</td>          <td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-no">–</span></td></tr>
+          <tr><td>aion_context_add</td>    <td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_context_get</td>    <td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_milestones</td>     <td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-no">–</span></td></tr>
+          <tr><td>aion_journal_append</td> <td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_journal_read</td>   <td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_allow</td>          <td><span class="m-no">–</span></td><td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-no">–</span></td></tr>
+          <tr><td>aion_deny</td>           <td><span class="m-no">–</span></td><td><span class="m-no">–</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_snapshot</td>       <td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+          <tr><td>aion_verify</td>         <td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td><td><span class="m-yes">✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="matrix-note" data-anim data-delay="2">
+      <strong>aion_dream</strong> appears only in Shell Game — latent link inference is the most powerful primitive. It recovers structure that no document explicitly encodes. This cannot be replicated by a vector store or search index.
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section id="closing" class="dark">
+    <div class="closing-inner">
+      <p class="eye" data-anim>What's Next</p>
+      <h2 class="closing-title" data-anim data-delay="1">Every agent<br>needs a substrate.</h2>
+      <p class="closing-sub" data-anim data-delay="2">Capability without memory is a tool. Capability with memory, identity, and reasoning structure is infrastructure.</p>
+    </div>
+    <div class="closing-boxes">
+      <div class="cbox" data-anim="scale" data-delay="1">
+        <div class="cbox-head">Now</div>
+        <p class="cbox-body">Five primitives, eighteen MCP tools, four demonstrated use cases. All four quality gates green — fmt · clippy · test · zero mutants survived.</p>
+      </div>
+      <div class="cbox" data-anim="scale" data-delay="2">
+        <div class="cbox-head">Next</div>
+        <p class="cbox-body">Supply chain recall. Legal evidence chain. Multi-agent coordination. ML-DSA post-quantum signatures. Distributed KeyRegistry. Federated graph sync.</p>
+      </div>
+      <div class="cbox" data-anim="scale" data-delay="3">
+        <div class="cbox-head">The Ecosystem</div>
+        <p class="cbox-body">CoWiki (Paul Shomo) — the first external capability built on the .aion format. Any agent — Claude, GPT, Gemini, local — can write to the same substrate via MCP.</p>
+      </div>
+    </div>
+    <div class="closing-links" data-anim data-delay="3">
+      <div class="clink">
+        <span class="clink-label">Repository</span>
+        <a class="clink-val" href="https://github.com/aion-context/aion-fs" target="_blank" rel="noopener">github.com/aion-context/aion-fs</a>
+      </div>
+      <div class="clink">
+        <span class="clink-label">CoWiki (Paul Shomo)</span>
+        <a class="clink-val" href="https://github.com/copyleftdev/cowiki-rs" target="_blank" rel="noopener">github.com/copyleftdev/cowiki-rs</a>
+      </div>
+      <div class="clink">
+        <span class="clink-label">Contact</span>
+        <a class="clink-val" href="mailto:dj@codetestcode.io">dj@codetestcode.io</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>AION Cognitive Substrate · v0.5 · 2026</span>
+    <span>Built in Rust · Deployed on GitHub Pages</span>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

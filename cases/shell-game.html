@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Operation Shell Game — AION Cognitive Substrate</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <style>
+    .back-link { margin-bottom: 0.75rem; }
+    .back-link a {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 0.78rem;
+      letter-spacing: 0.04em;
+      color: var(--copper);
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .back-link a:hover { opacity: 0.75; }
+    .article-hero { border-top: 4px solid #c47a3a; }
+    .article-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      margin-top: 2rem;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--bdr);
+    }
+    .meta-item { display: flex; flex-direction: column; gap: 0.25rem; }
+    .meta-label {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-3);
+    }
+    .meta-val {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+    .prim-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0.5rem 0 1.25rem; }
+    .pchip {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      font-size: 0.75rem;
+      padding: 2px 9px;
+      background: var(--parchment-2);
+      color: var(--blue);
+      border: 1px solid var(--bdr);
+    }
+    .cl {
+      font-family: 'Bitter', Georgia, serif;
+      font-size: 0.75rem;
+      font-style: italic;
+      color: var(--text-3);
+    }
+    .finding-list { list-style: none; margin: 0; padding: 0; }
+    .finding-item { align-items: flex-start; }
+    .seal-grid { grid-template-columns: 90px 1fr; }
+    .result-block.dark-block {
+      background: var(--navy-2);
+      color: var(--text-lt);
+    }
+    .result-block.dark-block .result-title { color: var(--copper); }
+    .result-block.dark-block .hash { color: var(--text-lt2); }
+    .denied-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: oklch(48% 0.15 25 / 0.1);
+      padding: 0.4rem 0.9rem;
+      margin-top: 0.25rem;
+    }
+    .denied-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--red);
+      flex-shrink: 0;
+    }
+    .denied-text {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+    }
+    .site-footer {
+      background: var(--navy);
+      padding: 2rem max(2rem, 8vw);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--bdr-dark);
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-family: 'Bitter', Georgia, serif;
+      font-size: 0.75rem;
+      color: var(--text-lt2);
+    }
+    .site-footer a:hover { color: var(--copper); }
+  </style>
+</head>
+<body>
+  <nav class="nav scrolled">
+    <a class="nav-logo" href="../">AION</a>
+    <button class="nav-toggle" aria-label="Menu"><span></span><span></span><span></span></button>
+    <div class="nav-links">
+      <a href="../#architecture">Architecture</a>
+      <a href="../#primitives">Primitives</a>
+      <a href="../#interface">Interface</a>
+      <a href="../#cases" class="active">Cases</a>
+      <a href="https://github.com/aion-context/aion-fs" class="nav-cta" target="_blank" rel="noopener">GitHub →</a>
+    </div>
+  </nav>
+
+  <div class="article-page">
+    <div class="article-hero" style="border-top: 4px solid #c47a3a;">
+      <p class="back-link"><a href="../#cases">← All cases</a></p>
+      <p class="article-eye">Use Case 04 · AML Investigation</p>
+      <h1 class="article-title">Operation Shell Game</h1>
+      <p class="article-sub">How AION's graph primitives traced a multi-layered money laundering network through twelve interconnected entities — and sealed the evidence for regulatory submission.</p>
+      <div class="article-meta">
+        <span class="meta-item"><span class="meta-label">Primitives</span><span class="meta-val">8 MCP tools</span></span>
+        <span class="meta-item"><span class="meta-label">Nodes</span><span class="meta-val">12</span></span>
+        <span class="meta-item"><span class="meta-label">Analytics</span><span class="meta-val">6 passes</span></span>
+        <span class="meta-item"><span class="meta-label">Output</span><span class="meta-val">SAR filing + sealed evidence</span></span>
+      </div>
+    </div>
+
+    <div class="article-body">
+
+      <h3>Background</h3>
+      <p>Financial intelligence unit analysts received an alert: a series of structurally identical wire transfers, routed through correspondent banking channels, shared timing characteristics consistent with layering — the second phase of classic money laundering. The originating entities were opaque shell companies registered across three jurisdictions. No single data source made the pattern visible. The pattern only emerged by treating the full entity universe as a graph.</p>
+
+      <p>The investigation ingested twelve nodes into AION: four shell holding companies, two trading entities, two KYC filings (one contradictory), a transaction cluster, a correspondent bank, a SAR filing node, and a sanction alert. Viktor Sorokin, the beneficial owner of record on one filing, and Elena Marchetti, listed as a signatory but subject to an active access restriction, were also annotated into the substrate.</p>
+
+      <h3>Node Inventory</h3>
+      <p>Each entity was ingested via <code>aion_annotate</code> and assigned a BLAKE3 content address. The twelve nodes and their canonical identifiers:</p>
+
+      <div class="result-block">
+        <div class="result-title">Step 01 · Node Corpus — aion_annotate × 12</div>
+        <div class="prim-chips">
+          <span class="pchip">aion_annotate</span>
+          <span class="pchip">aion_deny</span>
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 0.4rem 1.5rem; font-size: 0.82rem;">
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">phantom-holdings</span><br><span class="hash">0ac355fe21fcc10c3984455bcf7b2315a283ca75d3696b3399a928a7df9961f3</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">nexus-trading</span><br><span class="hash">1b4fb7770a5a6e9ecb56f03fb42717d4db3c805e6b325030d27a304cc4807f44</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">aurora-capital</span><br><span class="hash">5db8919f0c3b8b8d9b902e2dd8078285b9f96e6a0179e5f89941438b15c373dc</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">meridian-assets</span><br><span class="hash">9554d64da2e7a9c8c4a6ed07d1565042f4a99fc24c46ceafbbf7a2eaeb4340ad</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">viktor-sorokin</span><br><span class="hash">b39001ab72e6358fb115c40fbdbbda76d1c88246c84daa0e91d6b5b12da410a7</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--red);">elena-marchetti <span style="font-size:0.7rem;">[DENIED]</span></span><br><span class="hash">ebce6e8c481e99d57b5dd2fad1bebfbdb28cc84e30ed9683f03b9058c1c8ddc8</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">kyc-filing-A</span><br><span class="hash">499ee5cfb24a0706fd562183956cbc89550a63bb26862c85f08303074d3d3547</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">kyc-filing-B</span><br><span class="hash">9464b1e4b1f1deacf4977d45f60ddab4b25dd466361aecffe3e8fc4c4e949caf</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">txn-cluster</span><br><span class="hash">f4135bae2bc3d77a2390dcd5bb4ffd4743934f45ef79a07ad07e26f0536238e1</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">correspondent-bank</span><br><span class="hash">a4c7fb7ab284be44fceff7f73bb67a06759d4f00cf19ef5af2c0758c3acbe4e9</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">sar-filing</span><br><span class="hash">e927770bc92bfd8ee1b0ce94fa1101bb98661df72855d3b79aee686af6a4f8b5</span></div>
+          <div><span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text);">sanction-alert</span><br><span class="hash">cd1949090874307ea8b217bdc363da792a86d3b1d2e3e2a34542d7bf3659cd8f</span></div>
+        </div>
+        <div class="denied-badge" style="margin-top:1rem;">
+          <span class="denied-dot"></span>
+          <span class="denied-text">elena-marchetti denied — context now 11/12 members</span>
+        </div>
+      </div>
+
+      <h3>Policy Enforcement: Access Restriction</h3>
+      <p>Before any analytical pass, the policy layer was invoked. Elena Marchetti — listed as a named signatory on kyc-filing-B — was subject to an active regulatory access restriction. <code>aion_deny</code> was called with her node identifier. From that point forward, every query, path computation, and recall pass operated on an 11-node context. The denial is cryptographically recorded: it appears in the subsequent snapshot digest, making the restriction tamper-evident and auditable.</p>
+
+      <h3>Path Analysis: Owner to Bank</h3>
+      <p>The first analytical question was direct: what is the shortest causal path from Viktor Sorokin, the beneficial owner, to the correspondent bank through which the transfers cleared? <code>aion_path</code> traversed the graph with a causal edge constraint.</p>
+
+      <div class="result-block">
+        <div class="result-title">Step 02 · aion_path — Viktor Sorokin → Correspondent Bank</div>
+        <div class="prim-chips"><span class="pchip">aion_path</span></div>
+        <div class="chain">
+          <span class="cn">viktor-sorokin</span>
+          <span class="ca">→</span>
+          <span class="cl">[causal]</span>
+          <span class="ca">→</span>
+          <span class="cn">phantom-holdings</span>
+          <span class="ca">→</span>
+          <span class="cl">[causal]</span>
+          <span class="ca">→</span>
+          <span class="cn">txn-cluster</span>
+          <span class="ca">→</span>
+          <span class="cl">[causal]</span>
+          <span class="ca">→</span>
+          <span class="cn">correspondent-bank</span>
+        </div>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">3 hops. Sorokin controls Phantom Holdings; Phantom originates the transaction cluster; the cluster settles through the correspondent bank. The causal chain is unambiguous.</p>
+      </div>
+
+      <h3>Impact Analysis: Blast Radius of Phantom Holdings</h3>
+      <p>With the causal chain established, the investigation needed to quantify reach. If Phantom Holdings were the instrument of placement — the first phase of laundering — what was the full set of nodes it could contaminate in a forward traversal up to six hops? <code>aion_impact</code> returned a ranked list by depth.</p>
+
+      <div class="result-block">
+        <div class="result-title">Step 03 · aion_impact — phantom-holdings, forward, 6 hops</div>
+        <div class="prim-chips"><span class="pchip">aion_impact</span></div>
+        <ul class="finding-list">
+          <li class="finding-item"><span class="f-num">D1</span><span>nexus-trading — direct downstream from Phantom; likely conduit for secondary layering</span></li>
+          <li class="finding-item"><span class="f-num">D1</span><span>txn-cluster — direct settlement vehicle; co-contaminated at depth 1</span></li>
+          <li class="finding-item"><span class="f-num">D2</span><span>aurora-capital — reached via nexus-trading; third shell in the rotation</span></li>
+          <li class="finding-item"><span class="f-num">D2</span><span>sar-filing — the regulatory alert node is reachable from Phantom in two hops</span></li>
+          <li class="finding-item"><span class="f-num">D2</span><span>correspondent-bank — settlement institution, two hops from origination</span></li>
+          <li class="finding-item"><span class="f-num">D3</span><span>meridian-assets — the fourth shell, reached via aurora-capital; completes the ring</span></li>
+        </ul>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">6 nodes reachable. All four shell entities appear in the blast radius. The correspondent bank is contaminated at depth 2 — within the regulatory definition of knowing participation.</p>
+      </div>
+
+      <h3>Contradiction Detection: The KYC Cycle</h3>
+      <p>Two KYC filings existed for the same beneficial ownership structure. kyc-filing-A claimed temporal precedence over kyc-filing-B. kyc-filing-B claimed to supersede and replace kyc-filing-A. <code>aion_contradictions</code> detected the impossible cycle immediately.</p>
+
+      <div class="result-block">
+        <div class="result-title">Step 04 · aion_contradictions — KYC Temporal Conflict</div>
+        <div class="prim-chips"><span class="pchip">aion_contradictions</span></div>
+        <div class="chain" style="margin-bottom:0.75rem;">
+          <span class="cn">kyc-filing-A</span>
+          <span class="ca">↔</span>
+          <span class="cn">kyc-filing-B</span>
+        </div>
+        <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:0.5rem;"><strong>Finding:</strong> Temporal cycle confirmed. kyc-filing-A asserts it precedes kyc-filing-B and is therefore the authoritative record. kyc-filing-B asserts it supersedes and replaces kyc-filing-A. Both claims cannot simultaneously be true — the graph encodes an impossible temporal ordering.</p>
+        <p style="font-size:0.85rem;color:var(--text-2);">This contradiction is characteristic of deliberate document layering: two filings with contradictory provenance claims create regulatory ambiguity about which record governs. The substrate surfaced this automatically without manual document comparison.</p>
+      </div>
+
+      <h3>Community Detection: The Full Cluster</h3>
+      <p>Are all twelve entities structurally part of a single coordinated network, or do independent sub-clusters exist? <code>aion_community</code> ran a graph-theoretic partition over the full edge set.</p>
+
+      <div class="result-block">
+        <div class="result-title">Step 05 · aion_community — Partition Result</div>
+        <div class="prim-chips"><span class="pchip">aion_community</span></div>
+        <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:0.75rem;">All 12 entities resolved to a single community. Community identifier:</p>
+        <span class="hash">9464b1e4b1f1deacf4977d45f60ddab4b25dd466361aecffe3e8fc4c4e949caf</span>
+        <p style="font-size:0.85rem;color:var(--text-2);margin-top:0.75rem;">No independent sub-cluster was detected. Every entity in the investigation — all four shells, both trading entities, the KYC filings, the transaction cluster, the bank, the SAR, and the sanction alert — belongs to a single cohesive network. The community boundary does not leak into unrelated nodes. This is consistent with a purpose-built layering ring operating as a unified system.</p>
+      </div>
+
+      <h3>Spreading Activation: Structural Centrality</h3>
+      <p><code>aion_recall</code> was seeded with the two most operationally central nodes — txn-cluster and viktor-sorokin — and allowed to propagate activation across the graph. The resulting scores ranked every entity by structural centrality relative to the seed pair.</p>
+
+      <div class="result-block">
+        <div class="result-title">Step 05b · aion_recall — Seeds: txn-cluster + viktor-sorokin</div>
+        <div class="prim-chips"><span class="pchip">aion_recall</span></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.3rem 2rem;font-size:0.82rem;">
+          <div style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid var(--bdr);"><span style="font-family:'Archivo',sans-serif;font-weight:700;">txn-cluster</span><span style="font-family:'JetBrains Mono',monospace;color:var(--copper);">0.105</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid var(--bdr);"><span style="font-family:'Archivo',sans-serif;font-weight:700;">viktor-sorokin</span><span style="font-family:'JetBrains Mono',monospace;color:var(--copper);">0.100</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid var(--bdr);"><span>correspondent-bank</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);">0.031</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid var(--bdr);"><span>aurora-capital</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);">0.025</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid var(--bdr);"><span>phantom-holdings</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);">0.024</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid var(--bdr);"><span>sar-filing</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);">0.019</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid var(--bdr);"><span>meridian-assets</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);">0.010</span></div>
+          <div style="display:flex;justify-content:space-between;padding:0.2rem 0;border-bottom:1px solid var(--bdr);"><span>nexus-trading</span><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);">0.004</span></div>
+        </div>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">txn-cluster scores highest — confirming it as the operational hub. Sorokin's proximity score (0.100) places him structurally adjacent despite being the nominal originator rather than a direct transactor. The correspondent bank's score (0.031) confirms significant structural exposure.</p>
+      </div>
+
+      <h3>Dream Pass: Latent Edge Discovery</h3>
+      <p>The final analytical pass used <code>aion_dream</code> to densify the graph — propagating activation from phantom-holdings and aurora-capital simultaneously, scoring every potential edge that the explicit link set did not yet encode.</p>
+
+      <div class="result-block">
+        <div class="result-title">Step 06 · aion_dream — Seeds: phantom-holdings + aurora-capital, threshold 0.30</div>
+        <div class="prim-chips"><span class="pchip">aion_dream</span></div>
+        <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:0.75rem;">Approximately <strong>100 latent edges</strong> scored above the 0.30 threshold. The decisive finding:</p>
+        <div style="background:var(--parchment);padding:1rem;margin-bottom:0.75rem;">
+          <p style="font-size:0.85rem;color:var(--text);margin:0;"><strong>Sorokin is structurally linked to all four shell entities and kyc-filing-A above the 0.30 threshold.</strong> This relationship does not appear in any explicit document — it is emergent from the activation topology. The graph's implicit structure encodes what the explicit filings obscure.</p>
+        </div>
+        <div style="display:flex;align-items:center;gap:1rem;font-size:0.82rem;">
+          <span style="font-family:'Archivo',sans-serif;font-weight:700;color:var(--text-3);">Graph health at seal time:</span>
+          <span style="font-family:'JetBrains Mono',monospace;color:var(--copper);font-weight:700;">7%</span>
+          <span style="font-family:'Bitter',Georgia,serif;font-style:italic;color:var(--text-3);">sparse — consistent with deliberate compartmentalization</span>
+        </div>
+      </div>
+
+      <h3>Key Findings</h3>
+      <ul class="finding-list">
+        <li class="finding-item">
+          <span class="f-num">01</span>
+          <span><strong>Three-hop causal chain confirmed.</strong> Sorokin → Phantom Holdings → txn-cluster → correspondent-bank. The chain of control from beneficial owner to settlement institution is direct and graph-traversable.</span>
+        </li>
+        <li class="finding-item">
+          <span class="f-num">02</span>
+          <span><strong>Full network is a single community.</strong> All 12 entities belong to one cohesive cluster. No node is incidental — every entity plays a structural role in the ring.</span>
+        </li>
+        <li class="finding-item">
+          <span class="f-num">03</span>
+          <span><strong>KYC filings encode an impossible temporal cycle.</strong> The contradiction between kyc-filing-A and kyc-filing-B is not an administrative error — it is a deliberate strategy to create competing authoritative records. Both are admissible as evidence of intent.</span>
+        </li>
+        <li class="finding-item">
+          <span class="f-num">04</span>
+          <span><strong>Dream pass extends Sorokin's reach to all four shells.</strong> The latent graph — derived from spreading activation alone — reveals that Sorokin's structural influence extends to every entity in the cluster, including those for which no direct documentation exists.</span>
+        </li>
+        <li class="finding-item">
+          <span class="f-num">05</span>
+          <span><strong>Elena Marchetti excluded under policy.</strong> Her denial is encoded in the snapshot and is non-repudiable. Eleven of twelve nodes form the evidentiary context for the SAR filing.</span>
+        </li>
+      </ul>
+
+      <h3>Evidence Seal</h3>
+      <p>Following all six analytical passes, the investigation context was sealed with <code>aion_snapshot</code>. The snapshot captures the full node and edge state — 102 nodes and 598 edges across the broader investigation context — as a BLAKE3-chained, Ed25519-signed digest. This seal is submitted alongside the SAR filing as a tamper-evident chain of custody.</p>
+
+      <div class="result-block dark-block" style="background:var(--navy-2);">
+        <div class="result-title">aion_snapshot · Evidence Seal</div>
+        <div class="seal-grid">
+          <span class="seal-key">Digest</span>
+          <span class="seal-val">38b9673f6e5d39ccd74ffaa8d1ef5f1ab2ed13922fa01da3889d66beb6913ca6</span>
+          <span class="seal-key">Signature</span>
+          <span class="seal-val">045df3e1c03550d4593350a13b2226a9d3b2cf6f3ae093100ba0ebd118a408d953bf9bb7d8a86cb432a0243412d3b3fba6e9db8683c4fba612fd84333d164701</span>
+          <span class="seal-key">Public Key</span>
+          <span class="seal-val">f2547299f2699a7906f0798840af042711b89ebd53ca1c66f104bf944f015720</span>
+          <span class="seal-key">Nodes</span>
+          <span class="seal-val">102</span>
+          <span class="seal-key">Edges</span>
+          <span class="seal-val">598</span>
+        </div>
+        <div class="valid-badge" style="margin-top:1rem;">
+          <span class="valid-dot"></span>
+          <span class="valid-text">Signature valid · Ed25519 · BLAKE3-chained</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <span>AION Cognitive Substrate · v0.5 · 2026</span>
+    <a href="../#cases" style="color:inherit;">← Back to all cases</a>
+  </footer>
+  <script src="../js/main.js"></script>
+</body>
+</html>
