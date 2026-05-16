@@ -1587,74 +1587,303 @@ footer a:hover {
 }
 
 /* ── 21. PERFORMANCE SECTION ───────────────────────────────── */
-.perf-fast-row {
+
+/* ── Headline metric tiles ── */
+.perf-metrics {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5px;
   margin-bottom: 1.5px;
 }
 
-.perf-fast-card {
+.perf-metric {
   background: var(--navy-2);
-  padding: 2rem 1.75rem;
+  padding: 1.75rem 1.5rem 1.25rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 
-.perf-algo {
+.perf-metric-warn {
+  background: oklch(21% 0.048 55);
+}
+
+.pm-algo {
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 0.78rem;
-  color: var(--blue);
+  font-size: 0.72rem;
+  color: oklch(55% 0.10 248);
   letter-spacing: 0.04em;
 }
 
-.perf-num {
+.pm-algo-warn {
+  color: oklch(58% 0.10 55);
+}
+
+.pm-num {
   font-family: 'Archivo', system-ui, sans-serif;
   font-weight: 900;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(1.75rem, 2.8vw, 2.5rem);
   letter-spacing: -0.03em;
   line-height: 1;
+  margin-top: 0.1rem;
 }
 
-.perf-num .perf-unit {
-  font-size: 0.45em;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  opacity: 0.7;
-}
+.pm-green  { color: var(--green); }
+.pm-copper { color: var(--copper); }
 
-.perf-green { color: var(--green); }
-.perf-copper { color: var(--copper); }
-
-.perf-ctx {
+.pm-ctx {
   font-family: 'Bitter', Georgia, serif;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--text-lt2);
   line-height: 1.5;
+  flex: 1;
+  margin-top: 0.15rem;
 }
 
-.perf-community-card {
+.pm-track {
+  height: 2px;
+  background: oklch(28% 0.04 248);
+  margin-top: 1rem;
+  overflow: hidden;
+}
+
+.pm-fill {
+  height: 100%;
+  width: 0;
+  transition: width 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
+}
+
+.pm-fill-green  { background: var(--green); }
+.pm-fill-copper { background: var(--copper); }
+
+.perf-metrics.chart-live .pm-fill {
+  width: var(--target-w);
+}
+
+/* ── Log-scale bar chart ── */
+.perf-chart {
   background: var(--navy-2);
-  padding: 2rem 1.75rem 1.5rem;
+  padding: 1.75rem 1.75rem 0 1.75rem;
+  margin-bottom: 1.5px;
+}
+
+.perf-chart-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.35rem;
+}
+
+.perf-chart-title {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-lt);
+}
+
+.perf-chart-legend {
+  display: flex;
+  gap: 1.25rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.pcl-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-lt2);
+}
+
+.pcl-swatch {
+  width: 22px;
+  height: 3px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.pcl-swatch-1k        { background: oklch(52% 0.14 150 / 0.22); }
+.pcl-swatch-10k       { background: oklch(52% 0.14 150 / 0.55); }
+.pcl-swatch-100k-green { background: var(--green); }
+
+.perf-chart-scale-note {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.6rem;
+  color: var(--text-lt2);
+  opacity: 0.45;
+  margin-bottom: 1.5rem;
+}
+
+/* ── Algorithm rows ── */
+.perf-chart-body {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
 }
 
-.perf-community-head {
+.pcg {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  column-gap: 0.75rem;
+  align-items: center;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid oklch(28% 0.04 248 / 0.6);
+}
+
+.pcg:last-child {
+  border-bottom: none;
+}
+
+.pcg-warn {
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid oklch(62% 0.13 55 / 0.18);
+  border-bottom: none;
+}
+
+.pcg-axis-row {
+  border-bottom: none;
+  padding: 0;
+  border-top: 1px solid oklch(28% 0.04 248 / 0.6);
+}
+
+.pcg-name {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.7rem;
+  color: var(--text-lt2);
+  align-self: center;
+}
+
+.pcg-name-warn {
+  color: oklch(68% 0.11 55);
+}
+
+.pcg-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pcg-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  height: 14px;
+}
+
+.pcg-row-accent .pcg-track {
+  height: 10px; /* taller bar for the 100K row */
+}
+
+.pcg-track {
+  flex: 1;
+  height: 6px;
+  position: relative;
+  min-width: 0;
+}
+
+.pcg-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0;
+  transition: width 1s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Fast algorithm bar colours (green spectrum) */
+.pcg-fast-1k   { background: oklch(52% 0.14 150 / 0.22); }
+.pcg-fast-10k  { background: oklch(52% 0.14 150 / 0.55); }
+.pcg-fast-100k { background: var(--green); }
+
+/* Community bar colours (copper spectrum) */
+.pcg-warn-1k   { background: oklch(62% 0.13 55 / 0.22); }
+.pcg-warn-10k  { background: oklch(62% 0.13 55 / 0.55); }
+.pcg-warn-100k { background: var(--copper); }
+
+/* Animate bars to target width when chart is live */
+.perf-chart.chart-live .pcg-bar {
+  width: var(--w);
+}
+
+.pcg-val {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.65rem;
+  color: var(--text-lt2);
+  opacity: 0.6;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 52px;
+}
+
+.pcg-val-accent { opacity: 1; color: var(--text-lt); }
+.pcg-val-warn   { color: oklch(70% 0.11 55); }
+
+/* ── Axis ── */
+.pcg-axis {
+  position: relative;
+  height: 28px;
+}
+
+.pca-tick {
+  position: absolute;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  top: 0;
+}
+
+.pca-tick::before {
+  content: '';
+  width: 1px;
+  height: 5px;
+  background: oklch(48% 0.04 248);
+}
+
+.pca-tick span {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.58rem;
+  color: var(--text-lt2);
+  opacity: 0.45;
+  white-space: nowrap;
+}
+
+/* ── Status row ── */
+.perf-status-row {
+  background: var(--navy-2);
+  padding: 1.5rem 1.75rem;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 2rem;
   flex-wrap: wrap;
+  margin-bottom: 1.5px;
+}
+
+.perf-status-note {
+  font-family: 'Bitter', Georgia, serif;
+  font-size: 0.875rem;
+  color: var(--text-lt2);
+  line-height: 1.7;
+  max-width: 64ch;
+  flex: 1;
 }
 
 .perf-badge-group {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding-top: 0.25rem;
+  flex-shrink: 0;
+  padding-top: 0.1rem;
 }
 
 .perf-badge {
@@ -1667,78 +1896,17 @@ footer a:hover {
   white-space: nowrap;
 }
 
-.perf-badge-opt {
-  background: oklch(52% 0.14 150 / 0.12);
-  color: var(--green);
-}
-
-.perf-badge-next {
-  background: oklch(62% 0.13 55 / 0.12);
-  color: var(--copper);
-}
-
-.perf-community-note {
-  font-family: 'Bitter', Georgia, serif;
-  font-size: 0.9rem;
-  color: var(--text-lt2);
-  line-height: 1.7;
-  max-width: 68ch;
-}
-
-.scale-table-wrap {
-  overflow-x: auto;
-  margin-top: 0.25rem;
-}
-
-.scale-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-family: 'Archivo', system-ui, sans-serif;
-  font-size: 0.82rem;
-}
-
-.scale-table th {
-  font-weight: 700;
-  font-size: 0.65rem;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--text-lt2);
-  padding: 0.6rem 1rem 0.6rem 0;
-  border-bottom: 1px solid var(--bdr-dark);
-  text-align: left;
-}
-
-.scale-table td {
-  padding: 0.55rem 1rem 0.55rem 0;
-  border-bottom: 1px solid oklch(28% 0.04 248 / 0.5);
-  color: var(--text-lt);
-  font-variant-numeric: tabular-nums;
-}
-
-.scale-table td:first-child {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 0.78rem;
-  color: var(--text-lt2);
-}
-
-.scale-row-fast td { color: var(--text-lt); }
-.scale-row-warn td { color: var(--copper); }
-.scale-row-warn td:first-child { color: var(--copper); }
-
-.scale-complexity {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  font-size: 0.72rem;
-  color: var(--text-lt2);
-  opacity: 0.7;
-}
+.perf-badge-opt  { background: oklch(52% 0.14 150 / 0.12); color: var(--green); }
+.perf-badge-next { background: oklch(62% 0.13 55 / 0.12);  color: var(--copper); }
 
 .perf-footnote {
   font-family: 'Bitter', Georgia, serif;
   font-size: 0.75rem;
   font-style: italic;
   color: var(--text-lt2);
-  opacity: 0.6;
+  opacity: 0.55;
   line-height: 1.6;
+  padding-top: 0.5rem;
 }
 
 .perf-footnote code {
@@ -1747,15 +1915,47 @@ footer a:hover {
   font-size: 0.85em;
 }
 
-@media (max-width: 768px) {
-  .perf-fast-row {
-    grid-template-columns: 1fr;
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .perf-metrics {
+    grid-template-columns: repeat(2, 1fr);
   }
-  .perf-community-head {
+}
+
+@media (max-width: 768px) {
+  .perf-metrics {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .pcg {
+    grid-template-columns: 110px 1fr;
+  }
+
+  .perf-chart-header {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .perf-chart-legend {
+    gap: 0.9rem;
+  }
+
+  .perf-status-row {
     flex-direction: column;
   }
+
   .perf-badge-group {
     flex-direction: row;
     flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .perf-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .pcg {
+    grid-template-columns: 100px 1fr;
   }
 }

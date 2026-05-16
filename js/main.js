@@ -444,6 +444,82 @@ function initSmoothScroll() {
   });
 }
 
+/* ── 7. PERFORMANCE SECTION ──────────────────────────────────
+   Count-up for decimal metrics + staggered bar chart reveal.
+   Bars animate via CSS transition triggered by .chart-live class.
+   ─────────────────────────────────────────────────────────── */
+
+function easeOutQuint(t) {
+  return 1 - Math.pow(1 - t, 5);
+}
+
+function animateFloat(el, target, decimals, suffix, duration) {
+  const start = performance.now();
+
+  function step(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const value = easeOutQuint(progress) * target;
+    el.textContent = value.toFixed(decimals) + suffix;
+    if (progress < 1) requestAnimationFrame(step);
+  }
+
+  requestAnimationFrame(step);
+}
+
+function initPerfSection() {
+  const chart   = document.getElementById('perf-chart');
+  const metrics = document.querySelector('.perf-metrics');
+  if (!chart && !metrics) return;
+
+  // Apply staggered transition-delay to bars by group (data-bar-delay index).
+  if (chart) {
+    chart.querySelectorAll('[data-bar-delay]').forEach(bar => {
+      const group = parseInt(bar.dataset.barDelay, 10);
+      bar.style.transitionDelay = (group * 140) + 'ms';
+    });
+  }
+
+  // Reset metric numbers to 0 so count-up has somewhere to start.
+  if (metrics) {
+    metrics.querySelectorAll('[data-perf]').forEach(el => {
+      const decimals = parseInt(el.dataset.perfDecimals ?? '0', 10);
+      const suffix   = el.dataset.perfSuffix ?? '';
+      el.textContent = (0).toFixed(decimals) + suffix;
+    });
+  }
+
+  const triggered = new Set();
+
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const key = entry.target.id || entry.target.className;
+      if (triggered.has(key)) return;
+      triggered.add(key);
+
+      if (entry.target === chart) {
+        chart.classList.add('chart-live');
+      }
+
+      if (entry.target === metrics) {
+        metrics.classList.add('chart-live');
+        metrics.querySelectorAll('[data-perf]').forEach((el, i) => {
+          const target   = parseFloat(el.dataset.perf);
+          const decimals = parseInt(el.dataset.perfDecimals ?? '0', 10);
+          const suffix   = el.dataset.perfSuffix ?? '';
+          setTimeout(() => animateFloat(el, target, decimals, suffix, 1300), i * 90);
+        });
+      }
+
+      observer.unobserve(entry.target);
+    });
+  }, { threshold: 0.18 });
+
+  if (chart)   observer.observe(chart);
+  if (metrics) observer.observe(metrics);
+}
+
 /* ── INIT ─────────────────────────────────────────────────── */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -461,6 +537,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Counter animations
   initCounters();
+
+  // Performance chart + metric count-up
+  initPerfSection();
 
   // Smooth scroll
   initSmoothScroll();

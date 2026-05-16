@@ -273,80 +273,167 @@
       <p class="sec-intro" data-anim data-delay="3">Measured on Barabási–Albert scale-free graphs at release optimization. Impact, path, and dream pass are effectively free at any practical graph size.</p>
     </div>
 
-    <div class="perf-fast-row" data-anim data-delay="1">
-      <div class="perf-fast-card">
-        <div class="perf-algo">aion_impact</div>
-        <div class="perf-num perf-green">0.49 <span class="perf-unit">ms</span></div>
-        <div class="perf-ctx">100K nodes · 6-hop forward BFS · 629 nodes reached</div>
+    <!-- 4 headline metric tiles with count-up + relative scale bar -->
+    <div class="perf-metrics" data-anim data-delay="1">
+      <div class="perf-metric">
+        <span class="pm-algo">aion_impact</span>
+        <span class="pm-num pm-green" data-perf="0.49" data-perf-decimals="2" data-perf-suffix=" ms">0.49 ms</span>
+        <span class="pm-ctx">100K · 6-hop BFS · 629 reached</span>
+        <div class="pm-track"><div class="pm-fill pm-fill-green" style="--target-w: 30.9%"></div></div>
       </div>
-      <div class="perf-fast-card">
-        <div class="perf-algo">aion_path</div>
-        <div class="perf-num perf-green">0.086 <span class="perf-unit">ms</span></div>
-        <div class="perf-ctx">100K nodes · 400K edges · 5-hop shortest path</div>
+      <div class="perf-metric">
+        <span class="pm-algo">aion_path</span>
+        <span class="pm-num pm-green" data-perf="0.086" data-perf-decimals="3" data-perf-suffix=" ms">0.086 ms</span>
+        <span class="pm-ctx">100K · 400K edges · 5-hop BFS</span>
+        <div class="pm-track"><div class="pm-fill pm-fill-green" style="--target-w: 17.1%"></div></div>
       </div>
-      <div class="perf-fast-card">
-        <div class="perf-algo">aion_dream</div>
-        <div class="perf-num perf-green">243 <span class="perf-unit">ms</span></div>
-        <div class="perf-ctx">100K nodes · spreading activation + Jaccard inference · linear fallback active</div>
+      <div class="perf-metric">
+        <span class="pm-algo">aion_dream</span>
+        <span class="pm-num pm-green" data-perf="243" data-perf-decimals="0" data-perf-suffix=" ms">243 ms</span>
+        <span class="pm-ctx">100K · spreading activation + Jaccard</span>
+        <div class="pm-track"><div class="pm-fill pm-fill-green" style="--target-w: 80.3%"></div></div>
+      </div>
+      <div class="perf-metric perf-metric-warn">
+        <span class="pm-algo pm-algo-warn">aion_community</span>
+        <span class="pm-num pm-copper" data-perf="2.90" data-perf-decimals="2" data-perf-suffix=" s">2.90 s</span>
+        <span class="pm-ctx">100K · label propagation · 8 iterations</span>
+        <div class="pm-track"><div class="pm-fill pm-fill-copper" style="--target-w: 100%"></div></div>
       </div>
     </div>
 
-    <div class="perf-community-card" data-anim data-delay="2">
-      <div class="perf-community-head">
-        <div>
-          <div class="perf-algo">aion_community</div>
-          <div class="perf-num perf-copper">2.90 <span class="perf-unit">s</span></div>
-          <div class="perf-ctx">100K nodes · label propagation · converges in 8 iterations</div>
-        </div>
-        <div class="perf-badge-group">
-          <span class="perf-badge perf-badge-opt">delta-stepping shipped</span>
-          <span class="perf-badge perf-badge-next">CSR adjacency planned</span>
+    <!-- Animated log-scale bar chart -->
+    <div class="perf-chart" id="perf-chart" data-anim data-delay="2">
+      <div class="perf-chart-header">
+        <span class="perf-chart-title">Execution time at scale</span>
+        <div class="perf-chart-legend">
+          <span class="pcl-item"><span class="pcl-swatch pcl-swatch-1k"></span>1K nodes</span>
+          <span class="pcl-item"><span class="pcl-swatch pcl-swatch-10k"></span>10K nodes</span>
+          <span class="pcl-item"><span class="pcl-swatch pcl-swatch-100k-green"></span>100K nodes</span>
         </div>
       </div>
-      <p class="perf-community-note">Community detection is O(n × avg_degree × iterations). Delta-stepping (frontier-only re-evaluation) is implemented and correct — it doesn't improve throughput on single-component graphs because the frontier stays at ~n. The next optimization is CSR adjacency storage + integer-indexed nodes, eliminating HashMap overhead in the hot path. All current use cases run in single-digit milliseconds.</p>
+      <div class="perf-chart-scale-note">log₁₀ axis — 0.01 ms → 3 s · bar widths proportional to log of execution time</div>
 
-      <div class="scale-table-wrap">
-        <table class="scale-table">
-          <thead>
-            <tr>
-              <th>Algorithm</th>
-              <th>1K nodes</th>
-              <th>10K nodes</th>
-              <th>100K nodes</th>
-              <th>Complexity</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="scale-row-fast">
-              <td>Build</td>
-              <td>3.5 ms</td><td>28.7 ms</td><td>386 ms</td>
-              <td class="scale-complexity">O(n)</td>
-            </tr>
-            <tr class="scale-row-warn">
-              <td>Community</td>
-              <td>8.2 ms</td><td>97 ms</td><td>2.90 s</td>
-              <td class="scale-complexity">O(n · k · iter)</td>
-            </tr>
-            <tr class="scale-row-fast">
-              <td>Impact (6-hop)</td>
-              <td>0.067 ms</td><td>0.21 ms</td><td>0.49 ms</td>
-              <td class="scale-complexity">O(n · k)</td>
-            </tr>
-            <tr class="scale-row-fast">
-              <td>Path (BFS)</td>
-              <td>0.011 ms</td><td>0.018 ms</td><td>0.086 ms</td>
-              <td class="scale-complexity">O(n + e)</td>
-            </tr>
-            <tr class="scale-row-fast">
-              <td>Dream pass</td>
-              <td>1.4 ms</td><td>14.8 ms</td><td>243 ms</td>
-              <td class="scale-complexity">O(n · k)</td>
-            </tr>
-          </tbody>
-        </table>
+      <div class="perf-chart-body">
+        <!-- aion_path — fastest -->
+        <div class="pcg">
+          <div class="pcg-name">aion_path</div>
+          <div class="pcg-bars">
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-1k" style="--w: 1%"    data-bar-delay="0"></div></div>
+              <span class="pcg-val">0.011 ms</span>
+            </div>
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-10k" style="--w: 4.7%"  data-bar-delay="0"></div></div>
+              <span class="pcg-val">0.018 ms</span>
+            </div>
+            <div class="pcg-row pcg-row-accent">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-100k" style="--w: 17.1%" data-bar-delay="0"></div></div>
+              <span class="pcg-val pcg-val-accent">0.086 ms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- aion_impact -->
+        <div class="pcg">
+          <div class="pcg-name">aion_impact</div>
+          <div class="pcg-bars">
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-1k" style="--w: 15.1%" data-bar-delay="1"></div></div>
+              <span class="pcg-val">0.067 ms</span>
+            </div>
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-10k" style="--w: 24.2%" data-bar-delay="1"></div></div>
+              <span class="pcg-val">0.21 ms</span>
+            </div>
+            <div class="pcg-row pcg-row-accent">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-100k" style="--w: 30.9%" data-bar-delay="1"></div></div>
+              <span class="pcg-val pcg-val-accent">0.49 ms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- aion_dream -->
+        <div class="pcg">
+          <div class="pcg-name">aion_dream</div>
+          <div class="pcg-bars">
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-1k" style="--w: 39.3%" data-bar-delay="2"></div></div>
+              <span class="pcg-val">1.4 ms</span>
+            </div>
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-10k" style="--w: 58.0%" data-bar-delay="2"></div></div>
+              <span class="pcg-val">14.8 ms</span>
+            </div>
+            <div class="pcg-row pcg-row-accent">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-100k" style="--w: 80.3%" data-bar-delay="2"></div></div>
+              <span class="pcg-val pcg-val-accent">243 ms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- graph build -->
+        <div class="pcg">
+          <div class="pcg-name">build</div>
+          <div class="pcg-bars">
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-1k" style="--w: 46.6%" data-bar-delay="3"></div></div>
+              <span class="pcg-val">3.5 ms</span>
+            </div>
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-10k" style="--w: 63.3%" data-bar-delay="3"></div></div>
+              <span class="pcg-val">28.7 ms</span>
+            </div>
+            <div class="pcg-row pcg-row-accent">
+              <div class="pcg-track"><div class="pcg-bar pcg-fast-100k" style="--w: 84.0%" data-bar-delay="3"></div></div>
+              <span class="pcg-val pcg-val-accent">386 ms</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- aion_community — outlier, visually separated -->
+        <div class="pcg pcg-warn">
+          <div class="pcg-name pcg-name-warn">aion_community</div>
+          <div class="pcg-bars">
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-warn-1k" style="--w: 53.4%" data-bar-delay="4"></div></div>
+              <span class="pcg-val pcg-val-warn">8.2 ms</span>
+            </div>
+            <div class="pcg-row">
+              <div class="pcg-track"><div class="pcg-bar pcg-warn-10k" style="--w: 73.0%" data-bar-delay="4"></div></div>
+              <span class="pcg-val pcg-val-warn">97 ms</span>
+            </div>
+            <div class="pcg-row pcg-row-accent">
+              <div class="pcg-track"><div class="pcg-bar pcg-warn-100k" style="--w: 100%" data-bar-delay="4"></div></div>
+              <span class="pcg-val pcg-val-warn pcg-val-accent">2.90 s</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Axis row — aligned with pcg-bars columns -->
+        <div class="pcg pcg-axis-row">
+          <div></div>
+          <div class="pcg-axis">
+            <div class="pca-tick" style="left: 0%"><span>0.01 ms</span></div>
+            <div class="pca-tick" style="left: 18.3%"><span>0.1 ms</span></div>
+            <div class="pca-tick" style="left: 36.6%"><span>1 ms</span></div>
+            <div class="pca-tick" style="left: 54.9%"><span>10 ms</span></div>
+            <div class="pca-tick" style="left: 73.2%"><span>100 ms</span></div>
+            <div class="pca-tick" style="left: 91.5%"><span>1 s</span></div>
+          </div>
+        </div>
       </div>
-      <p class="perf-footnote">Barabási–Albert topology, m=4, avg degree 8. Rust release build, single thread, synchronous I/O. Reproduce: <code>cargo run --example scale_test --release -p aion-engine</code></p>
     </div>
+
+    <!-- Status row -->
+    <div class="perf-status-row" data-anim data-delay="3">
+      <p class="perf-status-note">Community detection is O(n × avg_degree × iterations). Delta-stepping (frontier-only re-evaluation) is implemented and correct — it doesn't improve throughput on single-component graphs because the frontier stays at ~n. The next optimization is CSR adjacency storage + integer-indexed nodes, eliminating HashMap overhead in the hot path. All current use cases run in single-digit milliseconds.</p>
+      <div class="perf-badge-group">
+        <span class="perf-badge perf-badge-opt">delta-stepping shipped</span>
+        <span class="perf-badge perf-badge-next">CSR adjacency planned</span>
+      </div>
+    </div>
+
+    <p class="perf-footnote" data-anim data-delay="4">Barabási–Albert topology · m=4 · avg degree 8 · Rust release build · single thread · synchronous I/O · Reproduce: <code>cargo run --example scale_test --release -p aion-engine</code></p>
   </section>
 
   <!-- CASES -->
