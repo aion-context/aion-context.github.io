@@ -1585,3 +1585,177 @@ footer a:hover {
   letter-spacing: 0.1em;
   color: var(--green);
 }
+
+/* ── 21. PERFORMANCE SECTION ───────────────────────────────── */
+.perf-fast-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  margin-bottom: 1.5px;
+}
+
+.perf-fast-card {
+  background: var(--navy-2);
+  padding: 2rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.perf-algo {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.78rem;
+  color: var(--blue);
+  letter-spacing: 0.04em;
+}
+
+.perf-num {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(2rem, 4vw, 3rem);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.perf-num .perf-unit {
+  font-size: 0.45em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.perf-green { color: var(--green); }
+.perf-copper { color: var(--copper); }
+
+.perf-ctx {
+  font-family: 'Bitter', Georgia, serif;
+  font-size: 0.8rem;
+  color: var(--text-lt2);
+  line-height: 1.5;
+}
+
+.perf-community-card {
+  background: var(--navy-2);
+  padding: 2rem 1.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.perf-community-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.perf-badge-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.25rem;
+}
+
+.perf-badge {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.75rem;
+  white-space: nowrap;
+}
+
+.perf-badge-opt {
+  background: oklch(52% 0.14 150 / 0.12);
+  color: var(--green);
+}
+
+.perf-badge-next {
+  background: oklch(62% 0.13 55 / 0.12);
+  color: var(--copper);
+}
+
+.perf-community-note {
+  font-family: 'Bitter', Georgia, serif;
+  font-size: 0.9rem;
+  color: var(--text-lt2);
+  line-height: 1.7;
+  max-width: 68ch;
+}
+
+.scale-table-wrap {
+  overflow-x: auto;
+  margin-top: 0.25rem;
+}
+
+.scale-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-size: 0.82rem;
+}
+
+.scale-table th {
+  font-weight: 700;
+  font-size: 0.65rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-lt2);
+  padding: 0.6rem 1rem 0.6rem 0;
+  border-bottom: 1px solid var(--bdr-dark);
+  text-align: left;
+}
+
+.scale-table td {
+  padding: 0.55rem 1rem 0.55rem 0;
+  border-bottom: 1px solid oklch(28% 0.04 248 / 0.5);
+  color: var(--text-lt);
+  font-variant-numeric: tabular-nums;
+}
+
+.scale-table td:first-child {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.78rem;
+  color: var(--text-lt2);
+}
+
+.scale-row-fast td { color: var(--text-lt); }
+.scale-row-warn td { color: var(--copper); }
+.scale-row-warn td:first-child { color: var(--copper); }
+
+.scale-complexity {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.72rem;
+  color: var(--text-lt2);
+  opacity: 0.7;
+}
+
+.perf-footnote {
+  font-family: 'Bitter', Georgia, serif;
+  font-size: 0.75rem;
+  font-style: italic;
+  color: var(--text-lt2);
+  opacity: 0.6;
+  line-height: 1.6;
+}
+
+.perf-footnote code {
+  font-style: normal;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 0.85em;
+}
+
+@media (max-width: 768px) {
+  .perf-fast-row {
+    grid-template-columns: 1fr;
+  }
+  .perf-community-head {
+    flex-direction: column;
+  }
+  .perf-badge-group {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

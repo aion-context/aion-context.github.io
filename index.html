@@ -18,6 +18,7 @@
       <a href="#architecture">Architecture</a>
       <a href="#primitives">Primitives</a>
       <a href="#interface">Interface</a>
+      <a href="#performance">Performance</a>
       <a href="#cases">Cases</a>
       <a href="https://github.com/aion-context/aion-fs" class="nav-cta" target="_blank" rel="noopener">GitHub →</a>
     </div>
@@ -260,6 +261,91 @@
         <div class="tool-row"><span class="tool-name">aion_snapshot</span><span class="tool-desc">BLAKE3-hash the graph state, sign with Ed25519, insert as a provenance node</span><span class="tool-tag tt-audit">Audit</span></div>
         <div class="tool-row"><span class="tool-name">aion_verify</span><span class="tool-desc">Verify an Ed25519 signature over a BLAKE3 digest — confirm graph authenticity</span><span class="tool-tag tt-audit">Audit</span></div>
       </div>
+    </div>
+  </section>
+
+  <!-- PERFORMANCE -->
+  <section id="performance" class="dark">
+    <div class="sec-head">
+      <p class="eye" data-anim>Benchmarks</p>
+      <h2 class="sec-title" data-anim data-delay="1">Sub-millisecond<br>at 100K nodes.</h2>
+      <div class="sec-rule" data-anim data-delay="2"></div>
+      <p class="sec-intro" data-anim data-delay="3">Measured on Barabási–Albert scale-free graphs at release optimization. Impact, path, and dream pass are effectively free at any practical graph size.</p>
+    </div>
+
+    <div class="perf-fast-row" data-anim data-delay="1">
+      <div class="perf-fast-card">
+        <div class="perf-algo">aion_impact</div>
+        <div class="perf-num perf-green">0.49 <span class="perf-unit">ms</span></div>
+        <div class="perf-ctx">100K nodes · 6-hop forward BFS · 629 nodes reached</div>
+      </div>
+      <div class="perf-fast-card">
+        <div class="perf-algo">aion_path</div>
+        <div class="perf-num perf-green">0.086 <span class="perf-unit">ms</span></div>
+        <div class="perf-ctx">100K nodes · 400K edges · 5-hop shortest path</div>
+      </div>
+      <div class="perf-fast-card">
+        <div class="perf-algo">aion_dream</div>
+        <div class="perf-num perf-green">243 <span class="perf-unit">ms</span></div>
+        <div class="perf-ctx">100K nodes · spreading activation + Jaccard inference · linear fallback active</div>
+      </div>
+    </div>
+
+    <div class="perf-community-card" data-anim data-delay="2">
+      <div class="perf-community-head">
+        <div>
+          <div class="perf-algo">aion_community</div>
+          <div class="perf-num perf-copper">2.90 <span class="perf-unit">s</span></div>
+          <div class="perf-ctx">100K nodes · label propagation · converges in 8 iterations</div>
+        </div>
+        <div class="perf-badge-group">
+          <span class="perf-badge perf-badge-opt">delta-stepping shipped</span>
+          <span class="perf-badge perf-badge-next">CSR adjacency planned</span>
+        </div>
+      </div>
+      <p class="perf-community-note">Community detection is O(n × avg_degree × iterations). Delta-stepping (frontier-only re-evaluation) is implemented and correct — it doesn't improve throughput on single-component graphs because the frontier stays at ~n. The next optimization is CSR adjacency storage + integer-indexed nodes, eliminating HashMap overhead in the hot path. All current use cases run in single-digit milliseconds.</p>
+
+      <div class="scale-table-wrap">
+        <table class="scale-table">
+          <thead>
+            <tr>
+              <th>Algorithm</th>
+              <th>1K nodes</th>
+              <th>10K nodes</th>
+              <th>100K nodes</th>
+              <th>Complexity</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="scale-row-fast">
+              <td>Build</td>
+              <td>3.5 ms</td><td>28.7 ms</td><td>386 ms</td>
+              <td class="scale-complexity">O(n)</td>
+            </tr>
+            <tr class="scale-row-warn">
+              <td>Community</td>
+              <td>8.2 ms</td><td>97 ms</td><td>2.90 s</td>
+              <td class="scale-complexity">O(n · k · iter)</td>
+            </tr>
+            <tr class="scale-row-fast">
+              <td>Impact (6-hop)</td>
+              <td>0.067 ms</td><td>0.21 ms</td><td>0.49 ms</td>
+              <td class="scale-complexity">O(n · k)</td>
+            </tr>
+            <tr class="scale-row-fast">
+              <td>Path (BFS)</td>
+              <td>0.011 ms</td><td>0.018 ms</td><td>0.086 ms</td>
+              <td class="scale-complexity">O(n + e)</td>
+            </tr>
+            <tr class="scale-row-fast">
+              <td>Dream pass</td>
+              <td>1.4 ms</td><td>14.8 ms</td><td>243 ms</td>
+              <td class="scale-complexity">O(n · k)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="perf-footnote">Barabási–Albert topology, m=4, avg degree 8. Rust release build, single thread, synchronous I/O. Reproduce: <code>cargo run --example scale_test --release -p aion-engine</code></p>
     </div>
   </section>
 
