@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulary: Six Hops From Molecule to Adverse Event — AION Cognitive Substrate</title>
+  <title>Nexivarel Formulary Integrity Review — AION Cognitive Substrate</title>
   <link rel="stylesheet" href="../css/main.css">
   <style>
     .back-link { margin-bottom: 0.75rem; }
@@ -12,13 +12,11 @@
       font-weight: 600;
       font-size: 0.78rem;
       letter-spacing: 0.04em;
-      color: var(--green);
+      color: var(--copper);
       text-decoration: none;
       transition: opacity 0.2s;
     }
     .back-link a:hover { opacity: 0.75; }
-    .article-hero { border-top: 4px solid var(--green); }
-    .article-eye { color: var(--green); }
     .article-meta {
       display: flex;
       flex-wrap: wrap;
@@ -59,51 +57,78 @@
     }
     .finding-list { list-style: none; margin: 0; padding: 0; }
     .finding-item { align-items: flex-start; }
-    .seal-grid { grid-template-columns: 90px 1fr; }
-    .result-block.dark-block {
-      background: var(--navy-2);
-      color: var(--text-lt);
+    .timeline-block {
+      border-left: 2px solid var(--green);
+      padding: 0 0 0 1.25rem;
+      margin: 1.5rem 0;
     }
-    .result-block.dark-block .result-title { color: var(--green); }
-    .result-block.dark-block .hash { color: var(--text-lt2); }
-    .result-block.dark-block .seal-val { color: var(--text-lt2); }
-    .caution-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: oklch(52% 0.15 25 / 0.08);
-      padding: 0.4rem 0.9rem;
-      margin-top: 0.25rem;
+    .tl-entry {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 0.85rem;
+      font-size: 0.875rem;
+      line-height: 1.6;
     }
-    .caution-dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: oklch(68% 0.16 55);
+    .tl-step {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 900;
+      font-size: 0.72rem;
+      color: var(--green);
       flex-shrink: 0;
+      min-width: 32px;
+      padding-top: 0.1rem;
     }
-    .caution-text {
+    .tl-event {
+      font-family: 'Bitter', Georgia, serif;
+      color: var(--text);
+    }
+    .tl-event strong {
       font-family: 'Archivo', system-ui, sans-serif;
       font-weight: 700;
-      font-size: 0.8rem;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      color: oklch(68% 0.16 55);
     }
-    .critical-badge {
+    .tl-milestone {
+      display: inline-block;
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      background: oklch(52% 0.14 150 / 0.12);
+      color: var(--green);
+      padding: 1px 7px;
+      margin-left: 0.5rem;
+    }
+    .mace-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 0.3rem;
+      margin: 1rem 0;
+    }
+    .mace-cell {
+      background: oklch(48% 0.15 25 / 0.08);
+      border: 1px solid oklch(48% 0.15 25 / 0.2);
+      padding: 0.4rem;
+      text-align: center;
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      color: var(--red);
+    }
+    .denied-badge {
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: oklch(48% 0.15 25 / 0.1);
+      background: oklch(48% 0.15 25 / 0.08);
       padding: 0.4rem 0.9rem;
-      margin-top: 0.5rem;
+      margin: 0.25rem 0;
     }
-    .critical-dot {
+    .denied-dot {
       width: 8px; height: 8px;
       border-radius: 50%;
       background: var(--red);
       flex-shrink: 0;
     }
-    .critical-text {
+    .denied-text {
       font-family: 'Archivo', system-ui, sans-serif;
       font-weight: 700;
       font-size: 0.8rem;
@@ -111,58 +136,62 @@
       letter-spacing: 0.1em;
       color: var(--red);
     }
-    .node-stage-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 0.4rem 1.5rem;
-      font-size: 0.82rem;
-    }
-    .node-stage-entry {
-      padding: 0.35rem 0;
-      border-bottom: 1px solid var(--bdr);
-    }
-    .node-stage-label {
-      font-family: 'Archivo', system-ui, sans-serif;
-      font-weight: 700;
-      color: var(--text);
-      font-size: 0.78rem;
-    }
-    .node-stage-num {
-      font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 0.68rem;
-      color: var(--green);
-      font-weight: 700;
-      margin-right: 0.4rem;
-    }
-    .rank-row {
-      display: flex;
-      justify-content: space-between;
+    .milestone-badge {
+      display: inline-flex;
       align-items: center;
-      padding: 0.3rem 0;
-      border-bottom: 1px solid var(--bdr);
-      font-size: 0.82rem;
+      gap: 0.5rem;
+      background: oklch(52% 0.14 150 / 0.1);
+      padding: 0.4rem 0.9rem;
+      margin: 0.2rem 0.25rem 0.2rem 0;
     }
-    .rank-score {
-      font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      color: var(--green);
-      font-weight: 700;
-    }
-    .rank-score.mid { color: var(--text-3); }
-    .impact-row {
-      display: flex;
-      gap: 0.75rem;
-      padding: 0.35rem 0;
-      border-bottom: 1px solid var(--bdr);
-      font-size: 0.82rem;
-    }
-    .depth-tag {
-      font-family: 'Archivo', system-ui, sans-serif;
-      font-weight: 900;
-      font-size: 0.72rem;
-      color: var(--green);
+    .ms-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
       flex-shrink: 0;
-      padding-top: 0.05rem;
-      min-width: 2rem;
+    }
+    .ms-text {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--green);
+    }
+    .coi-block {
+      background: oklch(48% 0.15 25 / 0.05);
+      border: 1px solid oklch(48% 0.15 25 / 0.15);
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+    }
+    .coi-head {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.75rem;
+    }
+    .coi-row {
+      display: flex;
+      gap: 1rem;
+      padding: 0.4rem 0;
+      border-bottom: 1px solid oklch(48% 0.15 25 / 0.1);
+      font-size: 0.85rem;
+      align-items: baseline;
+    }
+    .coi-row:last-child { border-bottom: none; }
+    .coi-key {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      color: var(--text-3);
+      width: 110px;
+      flex-shrink: 0;
+    }
+    .coi-val {
+      font-family: 'Bitter', Georgia, serif;
+      color: var(--text);
+      line-height: 1.5;
     }
     .site-footer {
       background: var(--navy);
@@ -177,7 +206,7 @@
       font-size: 0.75rem;
       color: var(--text-lt2);
     }
-    .site-footer a:hover { color: var(--green); }
+    .site-footer a:hover { color: var(--copper); }
   </style>
 </head>
 <body>
@@ -194,378 +223,266 @@
   </nav>
 
   <div class="article-page">
-    <div class="article-hero">
-      <p class="back-link"><a href="../index.html#cases">← All Cases</a></p>
-      <p class="article-eye">Use Case 03 · Pharmaceutical Intelligence</p>
-      <h1 class="article-title">Formulary: Six Hops From Molecule to Adverse Event</h1>
-      <p class="article-sub">How AION traced a MACE signal through a six-hop causal chain — from a stereochemistry decision in 2021 to a black-box warning in 2024 — and sealed every link as auditable, signed evidence.</p>
+    <div class="article-hero" style="border-top: 4px solid var(--green);">
+      <p class="back-link"><a href="../#cases">← All cases</a></p>
+      <p class="article-eye">Use Case 03 · Pharmaceutical Integrity</p>
+      <h1 class="article-title">Nexivarel Formulary Integrity Review</h1>
+      <p class="article-sub">Fourteen major adverse cardiovascular events following formulary approval prompted a complete causal audit — tracing a six-hop chain from manufacturer submission to patient harm, and sealing the evidence for FDA MedWatch submission.</p>
       <div class="article-meta">
-        <span class="meta-item"><span class="meta-label">Primitives</span><span class="meta-val">9 MCP tools</span></span>
-        <span class="meta-item"><span class="meta-label">Nodes</span><span class="meta-val">12 stages</span></span>
-        <span class="meta-item"><span class="meta-label">Hops</span><span class="meta-val">6 causal</span></span>
-        <span class="meta-item"><span class="meta-label">Elapsed</span><span class="meta-val">3 years, 4 months</span></span>
+        <span class="meta-item"><span class="meta-label">Primitives</span><span class="meta-val">8 MCP tools</span></span>
+        <span class="meta-item"><span class="meta-label">Causal chain</span><span class="meta-val">6 hops</span></span>
+        <span class="meta-item"><span class="meta-label">Timeline steps</span><span class="meta-val">12</span></span>
+        <span class="meta-item"><span class="meta-label">Output</span><span class="meta-val">FDA MedWatch filing</span></span>
       </div>
     </div>
 
     <div class="article-body">
 
-      <h3>The Problem: Drug Safety Is a Six-Hop Problem</h3>
-      <p data-anim data-delay="1">A synthesis decision leads to an impurity profile. An impurity profile changes bioavailability. A bioavailability shift masks CYP3A4 saturation. Masked saturation becomes a drug-drug interaction in combination therapy. That interaction triggers fourteen MACE events spread across three post-market studies. Those events become a black-box warning. No single investigator traces the full chain. No single database holds all six layers. No existing pharmacovigilance system connects the decision room in 2021 to the warning label in 2024.</p>
+      <h3>Clinical Background</h3>
+      <p>Nexivarel — a novel anticoagulant targeting Factor XIa — entered the hospital formulary at Aldermoor Medical Center following a unanimous P&amp;T committee vote in February 2025. The approval was based on a manufacturer-submitted safety data package citing a pivotal Phase III trial with a favorable MACE rate versus the standard of care. Formulary entry triggered prescribing across three inpatient cardiology services within six weeks.</p>
 
-      <p data-anim data-delay="2">AION can. Every stage of drug development — from molecule design through post-market surveillance — is ingested as a signed node. Every causal relationship is encoded as a typed, directed edge. When a MACE signal appears, <code>aion_path</code> reconstructs the full chain in a single traversal. Every hop is auditable. Every claim is signed.</p>
+      <p>By May 2025, the adverse event monitoring system had flagged fourteen MACE events — including three non-fatal MIs, four strokes, and seven cases of major bleeding — in patients receiving Nexivarel. The rate far exceeded the Phase III reported incidence. A formulary integrity review was initiated to determine whether the causal chain from manufacturer submission to adverse events was traceable, and whether the approval process itself had been compromised.</p>
 
-      <h3>Knowledge Graph Construction</h3>
-      <p data-anim data-delay="1">Formulary ingested twelve nodes representing the full lifecycle of a cardiovascular compound. Each stage was annotated via <code>aion_annotate</code> and assigned a BLAKE3 content address. The twelve stages and their canonical node identifiers:</p>
-
-      <div class="result-block" data-anim>
-        <div class="result-title">Step 01 · Node Corpus — aion_annotate × 12</div>
-        <div class="prim-chips">
-          <span class="pchip">aion_annotate</span>
+      <div class="result-block" style="background:oklch(48% 0.15 25 / 0.05);border:1px solid oklch(48% 0.15 25 / 0.15);">
+        <div class="result-title" style="color:var(--red);">Adverse Event Summary · 14 MACE Events</div>
+        <div class="mace-grid">
+          <div class="mace-cell">MACE-01</div>
+          <div class="mace-cell">MACE-02</div>
+          <div class="mace-cell">MACE-03</div>
+          <div class="mace-cell">MACE-04</div>
+          <div class="mace-cell">MACE-05</div>
+          <div class="mace-cell">MACE-06</div>
+          <div class="mace-cell">MACE-07</div>
+          <div class="mace-cell">MACE-08</div>
+          <div class="mace-cell">MACE-09</div>
+          <div class="mace-cell">MACE-10</div>
+          <div class="mace-cell">MACE-11</div>
+          <div class="mace-cell">MACE-12</div>
+          <div class="mace-cell">MACE-13</div>
+          <div class="mace-cell">MACE-14</div>
         </div>
-        <div class="node-stage-grid">
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 01</span><span class="node-stage-label">molecule-design-v3</span></div>
-            <div class="hash">1a2b3c4d5e6f...</div>
+        <p style="font-size:0.82rem;color:var(--text-2);margin-top:0.5rem;">Each MACE event was ingested as an individual AION node, signed at annotation time with the reviewing pharmacovigilance officer's key. All 14 carry a causal link from prescribing-data.</p>
+      </div>
+
+      <h3>Node Inventory</h3>
+      <p>The investigation ingested eleven distinct node categories. Each was annotated via <code>aion_annotate</code> and signed. The manufacturer's submission package and the P&amp;T committee voting record — both existing documents in the hospital's document management system — were ingested as content-addressed capsules. Their BLAKE3 digests now serve as tamper-evident identifiers for the submission and the vote.</p>
+
+      <div class="prim-chips" style="margin-bottom:1rem;">
+        <span class="pchip">harfield-pharma-submission</span>
+        <span class="pchip">safety-data-package</span>
+        <span class="pchip">pt-committee-vote</span>
+        <span class="pchip">formulary-entry</span>
+        <span class="pchip">prescribing-data</span>
+        <span class="pchip">14 × MACE-event</span>
+        <span class="pchip">fda-medwatch-filing</span>
+        <span class="pchip">committee-member-conflict-1</span>
+        <span class="pchip">committee-member-conflict-2</span>
+      </div>
+
+      <p>Critical to the investigation's integrity: the two committee member conflict nodes were annotated with their disclosed relationships <em>before</em> the policy enforcement step. Their presence in the node corpus — with their full relationship data — is part of the immutable record, even though they were subsequently excluded from the analytical context.</p>
+
+      <h3>Step 1 · Causal Chain: aion_path</h3>
+      <p>The central question of the integrity review was whether a direct, traceable causal chain existed from the manufacturer's formulary submission to the adverse events. A broken or ambiguous chain would limit regulatory options. A complete chain would establish the grounds for a full MedWatch filing. <code>aion_path</code> was called with a causal constraint over the full node set.</p>
+
+      <div class="result-block">
+        <div class="result-title">Step 01 · aion_path — Submission to 14 MACE Events</div>
+        <div class="prim-chips"><span class="pchip">aion_path</span></div>
+        <div class="chain" style="flex-direction:column;align-items:flex-start;gap:0.35rem;">
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+            <span class="cn">harfield-pharma-submission</span>
+            <span class="ca">→</span>
+            <span class="cl">[causal]</span>
+            <span class="ca">→</span>
+            <span class="cn">safety-data-package</span>
           </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 02</span><span class="node-stage-label">synthesis-pathway-B</span></div>
-            <div class="hash">2b3c4d5e6f7a...</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+            <span class="ca">→</span>
+            <span class="cl">[causal]</span>
+            <span class="ca">→</span>
+            <span class="cn">pt-committee-vote</span>
+            <span class="ca">→</span>
+            <span class="cl">[causal]</span>
+            <span class="ca">→</span>
+            <span class="cn">formulary-entry</span>
           </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 03</span><span class="node-stage-label">impurity-profile-lot-7</span></div>
-            <div class="hash">3c4d5e6f7a8b...</div>
+          <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+            <span class="ca">→</span>
+            <span class="cl">[causal]</span>
+            <span class="ca">→</span>
+            <span class="cn">prescribing-data</span>
+            <span class="ca">→</span>
+            <span class="cl">[causal]</span>
+            <span class="ca">→</span>
+            <span class="cn">14 × MACE-event</span>
           </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 04</span><span class="node-stage-label">bioavailability-study</span></div>
-            <div class="hash">4d5e6f7a8b9c...</div>
+        </div>
+        <p style="margin-top:1rem;font-size:0.85rem;color:var(--text-2);"><strong>6 hops. Complete.</strong> The causal chain from manufacturer submission to patient harm is unbroken and graph-traversable. Every edge is typed, every node is content-addressed, every link is signed. The chain does not depend on expert interpretation — it is read directly from the graph structure.</p>
+      </div>
+
+      <h3>Step 2 · Impact Analysis: aion_impact</h3>
+      <p>From the formulary-entry node — the formal act of approving Nexivarel for prescribing — what was the full forward impact? How many downstream nodes were reachable, and at what depth? This pass was used to establish the scope of the review for regulatory purposes.</p>
+
+      <div class="result-block">
+        <div class="result-title">Step 02 · aion_impact — formulary-entry, forward</div>
+        <div class="prim-chips"><span class="pchip">aion_impact</span></div>
+        <ul class="finding-list">
+          <li class="finding-item"><span class="f-num">D1</span><span>prescribing-data — directly authorized by formulary entry; all subsequent prescriptions flow from this node</span></li>
+          <li class="finding-item"><span class="f-num">D2</span><span>All 14 MACE event nodes — each reachable via prescribing-data; the formulary entry is causally connected to every adverse event within two hops</span></li>
+          <li class="finding-item"><span class="f-num">D3</span><span>fda-medwatch-filing — the regulatory response node; formulary entry triggers the chain that makes this filing obligatory</span></li>
+        </ul>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">Every MACE event is reachable from the formulary entry in two hops. The regulatory filing is reachable in three. The impact analysis establishes that the formulary decision — a single institutional act — created a causal exposure spanning all fourteen adverse events.</p>
+      </div>
+
+      <h3>Step 3 · Approval Timeline: aion_journal_append</h3>
+      <p>The investigation required a complete chronological record of the approval process — not a narrative summary, but an ordered, content-addressed sequence of institutional acts, each linked to the document or decision node it references. <code>aion_journal_append</code> constructed a 12-step episode from the initial submission receipt to the final adverse event report.</p>
+
+      <div class="timeline-block">
+        <div class="tl-entry">
+          <span class="tl-step">01</span>
+          <span class="tl-event"><strong>2025-01-08:</strong> Harfield Pharma formulary request received by P&amp;T secretariat. Node: harfield-pharma-submission.</span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">02</span>
+          <span class="tl-event"><strong>2025-01-14:</strong> Safety data package distributed to committee members for pre-review. Node: safety-data-package.</span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">03</span>
+          <span class="tl-event"><strong>2025-01-22:</strong> Clinical pharmacist prepares independent safety summary. Summary document annotated; link to safety-data-package established.</span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">04</span>
+          <span class="tl-event"><strong>2025-02-03:</strong> Conflict of interest disclosures due from committee members. Records: committee-member-conflict-1 and committee-member-conflict-2 did not disclose manufacturer relationships at this step.</span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">05</span>
+          <span class="tl-event"><strong>2025-02-11:</strong> P&amp;T committee meeting. Nexivarel presented by Harfield medical affairs representative. <span class="tl-milestone">Session</span></span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">06</span>
+          <span class="tl-event"><strong>2025-02-11:</strong> P&amp;T committee vote: unanimous approval. Node: pt-committee-vote. <span class="tl-milestone">Milestone</span></span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">07</span>
+          <span class="tl-event"><strong>2025-02-18:</strong> Formulary entry published. Nexivarel added to institutional formulary. Node: formulary-entry.</span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">08</span>
+          <span class="tl-event"><strong>2025-02-25:</strong> First prescriptions issued. Prescribing-data node created and linked to formulary-entry.</span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">09</span>
+          <span class="tl-event"><strong>2025-03-01 – 2025-05-01:</strong> Prescribing volume accumulates across cardiology services. Prescribing-data node updated iteratively as records are received.</span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">10</span>
+          <span class="tl-event"><strong>2025-03-14 – 2025-04-28:</strong> MACE events 01 through 14 occur. Each annotated as an individual node; causal link to prescribing-data established at annotation time.</span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">11</span>
+          <span class="tl-event"><strong>2025-05-02:</strong> Adverse event monitoring system flags MACE rate anomaly. Formulary integrity review initiated.</span>
+        </div>
+        <div class="tl-entry">
+          <span class="tl-step">12</span>
+          <span class="tl-event"><strong>2025-05-16:</strong> FDA MedWatch filing prepared. Node: fda-medwatch-filing. Snapshot requested for regulatory submission. <span class="tl-milestone">Milestone</span></span>
+        </div>
+      </div>
+
+      <h3>Step 4 · Policy Enforcement: Conflict of Interest Exclusion</h3>
+      <p>During the journal construction, investigation of the committee member records revealed that two members had undisclosed financial relationships with Harfield Pharmaceuticals: one through a speaking engagement honorarium received 90 days before the vote, and one through a spouse's equity holding in the manufacturer's parent company. Neither relationship was disclosed on the conflict of interest form at Step 04 of the timeline.</p>
+
+      <p>Both nodes were excluded from the analytical context via <code>aion_deny</code>. Critically, exclusion from the analytical context is not deletion. Both committee member conflict nodes remain in the full node corpus with their complete relationship data, signed and content-addressed. The denial is itself recorded in the snapshot. The regulatory record contains both the evidence of the conflict and the evidence that the analysis was conducted without it.</p>
+
+      <div class="coi-block">
+        <div class="coi-head">Conflict of Interest — Exclusion Record</div>
+        <div class="coi-row">
+          <span class="coi-key">Member 1</span>
+          <span class="coi-val">Speaking honorarium from Harfield Pharma, received 2024-11-14 — 89 days before the vote. Not disclosed per institutional policy requiring disclosure of relationships within 12 months.</span>
+        </div>
+        <div class="coi-row">
+          <span class="coi-key">Member 2</span>
+          <span class="coi-val">Spouse holds equity in Harfield parent company (Vantara Group). Constitutes indirect financial interest under 21 CFR Part 54. Not disclosed.</span>
+        </div>
+        <div style="margin-top:0.75rem;">
+          <div class="denied-badge">
+            <span class="denied-dot"></span>
+            <span class="denied-text">committee-member-conflict-1 — denied, context excluded</span>
           </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 05</span><span class="node-stage-label">phase-2-trial-enrollment</span></div>
-            <div class="hash">5e6f7a8b9c0d...</div>
-          </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 06</span><span class="node-stage-label">pk-pk-interaction-flag</span></div>
-            <div class="hash">6f7a8b9c0d1e...</div>
-          </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 07</span><span class="node-stage-label">fda-label-amendment</span></div>
-            <div class="hash">7a8b9c0d1e2f...</div>
-          </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 08</span><span class="node-stage-label">post-market-study-001</span></div>
-            <div class="hash">8b9c0d1e2f3a...</div>
-          </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 09</span><span class="node-stage-label">adverse-event-report-14</span></div>
-            <div class="hash">9c0d1e2f3a4b...</div>
-          </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 10</span><span class="node-stage-label">mace-signal-detected</span></div>
-            <div class="hash">0d1e2f3a4b5c...</div>
-          </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 11</span><span class="node-stage-label">pharmacovigilance-review</span></div>
-            <div class="hash">1e2f3a4b5c6d...</div>
-          </div>
-          <div class="node-stage-entry">
-            <div><span class="node-stage-num">Stage 12</span><span class="node-stage-label">label-black-box-warning</span></div>
-            <div class="hash">2f3a4b5c6d7e...</div>
+          <br>
+          <div class="denied-badge">
+            <span class="denied-dot"></span>
+            <span class="denied-text">committee-member-conflict-2 — denied, context excluded</span>
           </div>
         </div>
       </div>
 
-      <h3>Causal Chain: Six Hops Encoded</h3>
-      <p data-anim data-delay="1">With nodes ingested, <code>aion_link</code> encoded the causal relationships across all six hops. Each edge is typed — causal, temporal, or provenance — and carries a human-readable rationale that becomes part of the signed record. The chain:</p>
+      <p>The analytical passes — path, impact, journal — were re-run on the 9-node context (excluding the two conflict members) to confirm that the causal chain was not an artifact of their participation in the graph construction. It was not. The 6-hop chain from submission to MACE events is fully intact in the excluded-member context.</p>
 
-      <div class="result-block" data-anim>
-        <div class="result-title">Step 02 · aion_link — Causal Edge Set × 6</div>
-        <div class="prim-chips">
-          <span class="pchip">aion_link</span>
-        </div>
+      <h3>Step 5 · Milestones: aion_milestones</h3>
+      <p>The regulatory submission required explicit identification of decision checkpoints within the 12-step timeline — moments where an institutional act created a material change in the causal chain. <code>aion_milestones</code> was called to flag pt-committee-vote and fda-medwatch-filing as milestone nodes. These are the two acts with the highest regulatory significance: the vote that authorized prescribing, and the filing that acknowledges the resulting harm.</p>
 
-        <div class="chain" style="margin-bottom: 0.9rem;">
-          <span class="cn cn-green">molecule-design</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">synthesis-pathway</span>
+      <div class="result-block">
+        <div class="result-title">Step 05 · aion_milestones — Decision Checkpoints</div>
+        <div class="prim-chips"><span class="pchip">aion_milestones</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-bottom:0.75rem;">
+          <div class="milestone-badge"><span class="ms-dot"></span><span class="ms-text">pt-committee-vote · Milestone</span></div>
+          <div class="milestone-badge"><span class="ms-dot"></span><span class="ms-text">fda-medwatch-filing · Milestone</span></div>
         </div>
-        <p style="font-size:0.8rem;color:var(--text-3);margin: -0.4rem 0 0.9rem 0.25rem;font-style:italic;">"stereochemistry choice drives pathway"</p>
-
-        <div class="chain" style="margin-bottom: 0.9rem;">
-          <span class="cn cn-green">synthesis-pathway</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">impurity-profile</span>
-        </div>
-        <p style="font-size:0.8rem;color:var(--text-3);margin: -0.4rem 0 0.9rem 0.25rem;font-style:italic;">"pathway B yields 0.4% chiral impurity"</p>
-
-        <div class="chain" style="margin-bottom: 0.9rem;">
-          <span class="cn cn-green">impurity-profile</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">bioavailability</span>
-        </div>
-        <p style="font-size:0.8rem;color:var(--text-3);margin: -0.4rem 0 0.9rem 0.25rem;font-style:italic;">"impurity reduces Cmax by 23%"</p>
-
-        <div class="chain" style="margin-bottom: 0.9rem;">
-          <span class="cn cn-green">bioavailability</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">pk-pk-interaction</span>
-        </div>
-        <p style="font-size:0.8rem;color:var(--text-3);margin: -0.4rem 0 0.9rem 0.25rem;font-style:italic;">"reduced Cmax masks CYP3A4 saturation"</p>
-
-        <div class="chain" style="margin-bottom: 0.9rem;">
-          <span class="cn cn-green">pk-pk-interaction</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">adverse-event-14</span>
-        </div>
-        <p style="font-size:0.8rem;color:var(--text-3);margin: -0.4rem 0 0.9rem 0.25rem;font-style:italic;">"saturated CYP3A4 in combo therapy"</p>
-
-        <div class="chain" style="margin-bottom: 0.6rem;">
-          <span class="cn cn-green">adverse-event-14</span>
-          <span class="ca">→</span>
-          <span class="cl">[temporal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">mace-signal</span>
-        </div>
-        <p style="font-size:0.8rem;color:var(--text-3);margin: -0.4rem 0 0 0.25rem;font-style:italic;">"14 MACE events across 3 post-market studies"</p>
+        <p style="font-size:0.85rem;color:var(--text-2);">The committee vote is the institutional act that converted a manufacturer request into a formulary authorization. The MedWatch filing is the regulatory response that the 14 MACE events made obligatory. Both are signed and content-addressed; their timestamps are part of the sealed record. Both are now queryable as milestone nodes — surfaced first in any milestone-filtered graph traversal.</p>
       </div>
 
-      <h3>Impact Analysis: Blast Radius From Synthesis</h3>
-      <p data-anim data-delay="1">The synthesis-pathway-B node was the first point of no return — the decision that set the impurity trajectory. <code>aion_impact</code> computed the full downstream reach from that single node, up to six hops forward. The result quantified exactly how many decisions, studies, and regulatory actions a single synthesis choice contaminated.</p>
+      <h3>Step 6 · Evidence Seal: aion_snapshot</h3>
+      <p>With the causal chain established, the timeline complete, conflicts excluded, and milestones flagged, the full investigation context was sealed. The snapshot covers every node, every typed edge, the 12-step journal, the milestone flags, and the two denial records. The BLAKE3 digest and Ed25519 signature are attached to the FDA MedWatch filing as proof of the integrity review's completeness and non-repudiability.</p>
 
-      <div class="result-block" data-anim>
-        <div class="result-title">Step 03 · aion_impact — from=synthesis-pathway-B, max_depth=6</div>
-        <div class="prim-chips">
-          <span class="pchip">aion_impact</span>
-        </div>
-        <div class="impact-row">
-          <span class="depth-tag">D1</span>
-          <span>impurity-profile-lot-7 — the direct consequence; 0.4% chiral impurity introduced</span>
-        </div>
-        <div class="impact-row">
-          <span class="depth-tag">D2</span>
-          <span>bioavailability-study — Cmax reduction documented; alternate lots (3 nodes) also affected</span>
-        </div>
-        <div class="impact-row">
-          <span class="depth-tag">D3</span>
-          <span>phase-2-trial-enrollment — enrolled under compromised bioavailability assumptions; pk-pk-interaction-flag first raised here</span>
-        </div>
-        <div class="impact-row">
-          <span class="depth-tag">D4</span>
-          <span>fda-label-amendment — label updated without full causal context; post-market-study-001 initiated</span>
-        </div>
-        <div class="impact-row">
-          <span class="depth-tag">D5</span>
-          <span>adverse-event-report-14 (×14 reports) — MACE events accumulate; pharmacovigilance-review triggered</span>
-        </div>
-        <div class="impact-row" style="border-bottom: none;">
-          <span class="depth-tag">D6</span>
-          <span>mace-signal-detected — formal signal declared; label-black-box-warning issued</span>
-        </div>
-        <p style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-2);">Total downstream nodes reached: <strong>28</strong>. A single synthesis pathway decision — made in 2021 — propagated through 28 downstream nodes over three years and four months before reaching a black-box warning.</p>
-      </div>
+      <p>For regulatory purposes, the sealed snapshot means: every claim in the MedWatch filing is backed by a content-addressed, cryptographically signed graph. Any future attempt to alter a document in the chain — the safety data package, the committee vote record, a MACE event report — will produce a hash mismatch against the sealed snapshot. Tampering is structurally detectable without relying on a trusted custodian.</p>
 
-      <h3>Path Discovery: Seven Hops, One Chain</h3>
-      <p data-anim data-delay="1"><code>aion_path</code> was called with the two terminal endpoints: the original molecule design and the final regulatory outcome. The shortest valid path traversing typed causal edges was returned in a single query. No manual document review. No hypothesis required.</p>
-
-      <div class="result-block" data-anim>
-        <div class="result-title">Step 04 · aion_path — molecule-design-v3 → label-black-box-warning</div>
-        <div class="prim-chips">
-          <span class="pchip">aion_path</span>
+      <div class="result-block" style="background:var(--navy-2);">
+        <div class="result-title" style="color:var(--copper);">aion_snapshot · FDA MedWatch Submission Seal</div>
+        <div style="display:grid;grid-template-columns:90px 1fr;gap:0.6rem;align-items:start;font-size:0.8rem;">
+          <span style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);">Status</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-lt2);">Sealed · Ed25519 + BLAKE3-chained</span>
+          <span style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);">Contents</span>
+          <span style="font-family:'Bitter',Georgia,serif;font-size:0.8rem;color:var(--text-lt2);">All investigation nodes, causal chain edges, 12-step journal, 2 milestone flags, 2 denial records, 14 MACE event nodes</span>
+          <span style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);">Purpose</span>
+          <span style="font-family:'Bitter',Georgia,serif;font-size:0.8rem;color:var(--text-lt2);">FDA MedWatch submission · 21 CFR Part 312 · chain of custody for regulatory action</span>
+          <span style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);">Tamper</span>
+          <span style="font-family:'Bitter',Georgia,serif;font-size:0.8rem;color:var(--text-lt2);">Any post-seal document modification produces a hash mismatch — structurally detectable without trust in a custodian</span>
         </div>
-        <div class="chain" style="row-gap: 0.6rem;">
-          <span class="cn cn-green">molecule-design</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">synthesis-pathway</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">impurity-profile</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">bioavailability</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">pk-pk-interaction</span>
-          <span class="ca">→</span>
-          <span class="cl">[causal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">adverse-event-14</span>
-          <span class="ca">→</span>
-          <span class="cl">[temporal]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">mace-signal</span>
-          <span class="ca">→</span>
-          <span class="cl">[provenance]</span>
-          <span class="ca">→</span>
-          <span class="cn cn-green">label-black-box-warning</span>
-        </div>
-        <div style="margin-top: 1rem; display: flex; gap: 2rem; flex-wrap: wrap;">
-          <div>
-            <span class="meta-label">Hops</span>
-            <div style="font-family:'JetBrains Mono',monospace;color:var(--green);font-weight:700;font-size:1.1rem;margin-top:0.2rem;">7</div>
-          </div>
-          <div>
-            <span class="meta-label">Total elapsed</span>
-            <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.9rem;margin-top:0.2rem;">3 years, 4 months</div>
-          </div>
-        </div>
-      </div>
-
-      <h3>Context Lens: Cardiovascular Risk View</h3>
-      <p data-anim data-delay="1">The investigation maintained a persistent context lens scoped to cardiovascular-risk signals. <code>aion_context_get</code> returned the eight highest-scored nodes within that lens — enabling a pharmacovigilance reviewer to focus exclusively on the safety-critical subgraph without querying the full 58-node corpus.</p>
-
-      <div class="result-block" data-anim>
-        <div class="result-title">Step 05 · aion_context_get — context=cardiovascular-risk</div>
-        <div class="prim-chips">
-          <span class="pchip">aion_context_get</span>
-        </div>
-        <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:0.75rem;">Nodes in lens: <strong>8</strong> — mace-signal, adverse-event-14 ×6, pk-pk-interaction, label-black-box-warning</p>
-        <div class="rank-row">
-          <span style="font-family:'Archivo',sans-serif;font-weight:700;">mace-signal-detected</span>
-          <div style="display:flex;gap:1rem;align-items:center;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-3);">milestone</span>
-            <span class="rank-score">0.94</span>
-          </div>
-        </div>
-        <div class="rank-row">
-          <span style="font-family:'Archivo',sans-serif;font-weight:700;">pk-pk-interaction-flag</span>
-          <div style="display:flex;gap:1rem;align-items:center;">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-3);">milestone</span>
-            <span class="rank-score">0.87</span>
-          </div>
-        </div>
-        <div class="rank-row">
-          <span>label-black-box-warning</span>
-          <span class="rank-score mid">0.81</span>
-        </div>
-        <div class="rank-row" style="border-bottom:none;">
-          <span>adverse-event-report-14 (×6)</span>
-          <span class="rank-score mid">0.73 avg</span>
-        </div>
-        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">The cardiovascular-risk lens acts as a persistent, named view over the graph. Reviewers see only the safety-critical nodes. The lens is reproducible — any agent invoking it at any point in time gets the same scoped result.</p>
-      </div>
-
-      <h3>Recall: Spreading Activation on Safety Signals</h3>
-      <p data-anim data-delay="1"><code>aion_recall</code> was seeded with the query "CYP3A4 impurity off-target" — the conceptual core of the safety hypothesis. Activation propagated through the graph and returned the four most structurally relevant nodes by spreading-activation score. The ranking confirmed that the pharmacokinetic interaction node and the impurity profile were the epistemic center of gravity for the entire investigation.</p>
-
-      <div class="result-block" data-anim>
-        <div class="result-title">Step 06 · aion_recall — "CYP3A4 impurity off-target"</div>
-        <div class="prim-chips">
-          <span class="pchip">aion_recall</span>
-        </div>
-        <div class="rank-row">
-          <div><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);font-size:0.72rem;margin-right:0.5rem;">rank 1</span><span style="font-family:'Archivo',sans-serif;font-weight:700;">pk-pk-interaction-flag</span></div>
-          <span class="rank-score">0.91</span>
-        </div>
-        <div class="rank-row">
-          <div><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);font-size:0.72rem;margin-right:0.5rem;">rank 2</span><span style="font-family:'Archivo',sans-serif;font-weight:700;">impurity-profile-lot-7</span></div>
-          <span class="rank-score">0.84</span>
-        </div>
-        <div class="rank-row">
-          <div><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);font-size:0.72rem;margin-right:0.5rem;">rank 3</span><span>adverse-event-report-14</span></div>
-          <span class="rank-score mid">0.79</span>
-        </div>
-        <div class="rank-row" style="border-bottom:none;">
-          <div><span style="font-family:'JetBrains Mono',monospace;color:var(--text-3);font-size:0.72rem;margin-right:0.5rem;">rank 4</span><span>phase-2-trial-enrollment</span></div>
-          <span class="rank-score mid">0.61</span>
-        </div>
-        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">The pk-pk-interaction-flag node scored highest despite not containing the literal query terms — spreading activation surfaced it because of its structural centrality in the causal chain, not text matching alone.</p>
-      </div>
-
-      <h3>Contradiction Detection: The Label Conflict</h3>
-      <p data-anim data-delay="1"><code>aion_contradictions</code> ran a provenance-cycle scan across all temporal and causal edges. It surfaced a critical conflict: the 2022 FDA label amendment explicitly claimed no cardiovascular risk — while the graph already contained a causally linked four-hop chain terminating in the MACE signal detected in 2024. The substrate identified the contradiction automatically. No manual comparison of documents was required.</p>
-
-      <div class="result-block" data-anim>
-        <div class="result-title">Step 07 · aion_contradictions — Temporal Safety Conflict</div>
-        <div class="prim-chips">
-          <span class="pchip">aion_contradictions</span>
-        </div>
-        <div class="chain" style="margin-bottom: 0.75rem;">
-          <span class="cn" style="color:var(--text-3);">fda-label-amendment</span>
-          <span class="ca">↔</span>
-          <span class="cn cn-green">mace-signal-detected</span>
-        </div>
-        <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:0.5rem;"><strong>Temporal contradiction:</strong> fda-label-amendment (2022-11) claims "no cardiovascular risk" — but mace-signal-detected (2024-03) is causally linked via a four-hop chain running through pk-pk-interaction-flag, adverse-event-report-14, and post-market-study-001.</p>
-        <p style="font-size:0.85rem;color:var(--text-2);margin-bottom:0.75rem;">The label amendment was issued before the causal chain became visible in surveillance data. The contradiction does not indicate fraud — it indicates that the causal graph was not available to the label authors at amendment time. AION makes that chain visible retroactively and prospectively.</p>
-        <div class="critical-badge">
-          <span class="critical-dot"></span>
-          <span class="critical-text">Contradiction type: provenance cycle — severity: critical</span>
+        <div style="display:inline-flex;align-items:center;gap:0.5rem;background:oklch(52% 0.14 150 / 0.1);padding:0.5rem 1rem;margin-top:1rem;">
+          <span style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;display:block;border-radius:50%;"></span>
+          <span style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);">Signature valid · Ready for FDA submission</span>
         </div>
       </div>
 
       <h3>Key Findings</h3>
-      <ul class="finding-list" data-anim>
+      <ul class="finding-list">
         <li class="finding-item">
-          <span class="f-num" style="color:var(--green);">01</span>
-          <span><strong>Six-hop causal chain confirmed.</strong> From molecule-design-v3 to label-black-box-warning in seven traversal steps. The chain spans 3 years and 4 months of drug development. Every hop is typed, signed, and auditable.</span>
+          <span class="f-num">01</span>
+          <span><strong>6-step causal chain traced: manufacturer submission to 14 MACE events.</strong> The path from Harfield's formulary request to patient harm is unbroken, graph-traversable, and requires no expert interpretation. Every hop is a typed, signed causal edge.</span>
         </li>
         <li class="finding-item">
-          <span class="f-num" style="color:var(--green);">02</span>
-          <span><strong>One synthesis decision reached 28 downstream nodes.</strong> Synthesis-pathway-B contaminated every subsequent stage — bioavailability, trial design, label language, and post-market surveillance — all traceable via <code>aion_impact</code>.</span>
+          <span class="f-num">02</span>
+          <span><strong>12-step approval timeline: complete record from submission to adverse events.</strong> The journal provides an ordered, content-addressed chronicle of the institutional approval process, from the initial submission receipt through the regulatory response. Every step is linked to its corresponding node.</span>
         </li>
         <li class="finding-item">
-          <span class="f-num" style="color:var(--green);">03</span>
-          <span><strong>Impurity-mediated CYP3A4 saturation is the mechanistic pivot.</strong> <code>aion_recall</code> ranked pk-pk-interaction-flag highest (0.91) without explicit keyword match — structural centrality alone surfaced the mechanism.</span>
+          <span class="f-num">03</span>
+          <span><strong>Conflict of interest: two committee members denied for undisclosed manufacturer ties.</strong> One member failed to disclose a speaking honorarium within the 12-month lookback period. One member failed to disclose a spouse's equity holding. Both undisclosed relationships meet the materiality threshold under 21 CFR Part 54. Both denial records are part of the sealed evidence.</span>
         </li>
         <li class="finding-item">
-          <span class="f-num" style="color:var(--green);">04</span>
-          <span><strong>The 2022 label amendment was issued without causal context.</strong> <code>aion_contradictions</code> found a provenance cycle between the label's cardiovascular safety claim and the causally linked MACE signal. The contradiction is critical-severity and is now part of the signed evidence record.</span>
+          <span class="f-num">04</span>
+          <span><strong>Tamper-evident seal for FDA regulatory submission.</strong> The BLAKE3 + Ed25519 snapshot provides a mathematically verifiable record of the investigation's completeness. Post-seal document modification is structurally detectable without reliance on a trusted custodian.</span>
         </li>
         <li class="finding-item">
-          <span class="f-num" style="color:var(--green);">05</span>
-          <span><strong>The cardiovascular-risk context lens is reproducible.</strong> Any regulatory reviewer, at any point in time, invoking <code>aion_context_get</code> with "cardiovascular-risk" receives the same eight-node scoped view. The lens does not drift. The highest-scored nodes — mace-signal (0.94) and pk-pk-interaction (0.87) — remain stable across sessions.</span>
+          <span class="f-num">05</span>
+          <span><strong>Complete chain of custody: every node signed, every edge typed, every step verifiable.</strong> The investigation produces not just a report but a verifiable artifact. Any claim in the FDA submission can be traced back to a specific content-addressed node, signed by the annotating officer, linked by a typed edge to every downstream consequence.</span>
         </li>
       </ul>
-
-      <h3>Why This Matters</h3>
-      <p data-anim data-delay="1">The FDA does not have a system that traces synthesis decisions to adverse events six hops and three years later. Pharmacovigilance databases hold adverse event reports. Chemistry systems hold synthesis records. Clinical trial registries hold enrollment data. None of these systems talk to each other at the causal level.</p>
-
-      <p data-anim data-delay="2">AION does. Every node is signed. Every edge is typed. Every causal claim is auditable. When a black-box warning appears, you can trace it all the way back to a stereochemistry choice made in 2021 — and produce a tamper-evident evidence record that a regulator, a lawyer, or a pharmacovigilance committee can independently verify.</p>
-
-      <p data-anim data-delay="3">The six-hop chain was not assembled by a human reviewer spending weeks cross-referencing documents. It was returned by <code>aion_path</code> in a single query. The contradiction between the 2022 label and the 2024 MACE signal was not caught in a manual audit. It was surfaced by <code>aion_contradictions</code> automatically. The causal substrate makes the invisible chain visible — and seals it as evidence.</p>
-
-      <h3>Evidence Seal</h3>
-      <p data-anim data-delay="1">Following all seven analytical passes, the full investigation context was sealed with <code>aion_snapshot</code>. The snapshot captures 58 nodes and 247 edges — the complete causal graph from molecule design to black-box warning — as a BLAKE3-chained, Ed25519-signed digest. This seal constitutes a tamper-evident record suitable for regulatory submission.</p>
-
-      <div class="result-block dark-block" data-anim>
-        <div class="result-title">aion_snapshot · Evidence Seal</div>
-        <div class="seal-grid">
-          <span class="seal-key">Digest</span>
-          <span class="seal-val">5f7a9b1c3d5e7f9a1b3c5d7e9f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f7a</span>
-          <span class="seal-key">Signature</span>
-          <span class="seal-val">3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f7a9b1c3d5e7f9a1b3c5d7e9f1a3b5c</span>
-          <span class="seal-key">Nodes</span>
-          <span class="seal-val">58</span>
-          <span class="seal-key">Edges</span>
-          <span class="seal-val">247</span>
-          <span class="seal-key">Valid</span>
-          <span class="seal-val">true</span>
-        </div>
-        <div class="valid-badge" style="margin-top: 1rem;">
-          <span class="valid-dot"></span>
-          <span class="valid-text">Signature valid · Ed25519 · BLAKE3-chained</span>
-        </div>
-      </div>
 
     </div>
   </div>
 
   <footer class="site-footer">
     <span>AION Cognitive Substrate · v0.5 · 2026</span>
-    <a href="../index.html#cases" style="color:inherit;">← Back to all cases</a>
+    <a href="../#cases" style="color:inherit;">← Back to all cases</a>
   </footer>
   <script src="../js/main.js"></script>
 </body>

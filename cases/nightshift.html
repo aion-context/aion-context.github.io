@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Operation NightShift — AION Cognitive Substrate</title>
+  <title>NightShift: Security Investigations That Never Forget — AION Cognitive Substrate</title>
   <link rel="stylesheet" href="../css/main.css">
   <style>
     .back-link { margin-bottom: 0.75rem; }
@@ -12,12 +12,13 @@
       font-weight: 600;
       font-size: 0.78rem;
       letter-spacing: 0.04em;
-      color: var(--copper);
+      color: var(--red);
       text-decoration: none;
       transition: opacity 0.2s;
     }
     .back-link a:hover { opacity: 0.75; }
     .article-hero { border-top: 4px solid var(--red); }
+    .article-eye { color: var(--red); }
     .article-meta {
       display: flex;
       flex-wrap: wrap;
@@ -50,6 +51,10 @@
       color: var(--blue);
       border: 1px solid var(--bdr);
     }
+    .pchip.red {
+      color: var(--red);
+      border-color: oklch(48% 0.15 25 / 0.35);
+    }
     .cl {
       font-family: 'Bitter', Georgia, serif;
       font-size: 0.75rem;
@@ -58,72 +63,108 @@
     }
     .finding-list { list-style: none; margin: 0; padding: 0; }
     .finding-item { align-items: flex-start; }
-    .timeline-block {
-      border-left: 2px solid var(--red);
-      padding: 0 0 0 1.25rem;
-      margin: 1.5rem 0;
+    .finding-item .f-num { color: var(--red); }
+    .seal-grid { grid-template-columns: 90px 1fr; }
+    .result-block.dark-block {
+      background: var(--navy-2);
+      color: var(--text-lt);
     }
-    .timeline-entry {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      font-size: 0.875rem;
-      line-height: 1.6;
-    }
-    .tl-time {
-      font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 0.72rem;
-      color: var(--red);
-      flex-shrink: 0;
-      padding-top: 0.1rem;
-      min-width: 55px;
-    }
-    .tl-event {
-      font-family: 'Bitter', Georgia, serif;
-      color: var(--text);
-    }
-    .tl-event strong {
-      font-family: 'Archivo', system-ui, sans-serif;
-      font-weight: 700;
-    }
-    .alert-callout {
-      background: oklch(48% 0.15 25 / 0.06);
-      border-left: 3px solid var(--red);
-      padding: 1rem 1.25rem;
-      margin: 1.25rem 0;
-    }
-    .alert-callout p {
-      font-family: 'Bitter', Georgia, serif;
-      font-size: 0.9rem;
-      color: var(--text);
-      margin: 0;
-      line-height: 1.65;
-    }
-    .node-inventory {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.5rem;
-      margin: 1rem 0;
-    }
-    .node-pill {
-      display: flex;
+    .result-block.dark-block .result-title { color: var(--red); }
+    .result-block.dark-block .seal-val { color: var(--text-lt2); }
+    .result-block.dark-block .seal-key { color: oklch(50% 0.02 248); }
+    .result-title.red { color: var(--red); }
+    .alert-badge {
+      display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      background: var(--parchment-2);
-      padding: 0.4rem 0.75rem;
-      font-size: 0.8rem;
+      background: oklch(48% 0.15 25 / 0.1);
+      padding: 0.4rem 0.9rem;
+      margin-top: 0.25rem;
     }
-    .node-dot {
-      width: 6px;
-      height: 6px;
+    .alert-dot {
+      width: 8px; height: 8px;
       border-radius: 50%;
       background: var(--red);
       flex-shrink: 0;
     }
-    .node-pill span {
-      font-family: 'JetBrains Mono', 'Fira Code', monospace;
-      font-size: 0.75rem;
+    .alert-text {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+    }
+    .depth-row {
+      display: flex;
+      gap: 0.75rem;
+      padding: 0.45rem 0;
+      border-bottom: 1px solid var(--bdr);
+      font-size: 0.85rem;
+      align-items: baseline;
+    }
+    .depth-label {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.72rem;
+      color: var(--red);
+      flex-shrink: 0;
+      width: 52px;
+      padding-top: 0.05rem;
+    }
+    .depth-node {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
       color: var(--text);
+      flex-shrink: 0;
+    }
+    .depth-kind {
+      font-family: 'Bitter', Georgia, serif;
+      font-style: italic;
+      font-size: 0.8rem;
+      color: var(--text-3);
+    }
+    .recall-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.35rem 0;
+      border-bottom: 1px solid var(--bdr);
+      font-size: 0.82rem;
+    }
+    .recall-node {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .recall-score {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      color: var(--red);
+      font-weight: 700;
+    }
+    .recall-score.dim {
+      color: var(--text-3);
+    }
+    .insight-block {
+      background: var(--navy-2);
+      padding: 1.5rem;
+      margin: 2rem 0;
+      border-left: 4px solid var(--red);
+    }
+    .insight-label {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 0.75rem;
+    }
+    .insight-body {
+      font-family: 'Bitter', Georgia, serif;
+      font-size: 0.95rem;
+      color: var(--text-lt);
+      line-height: 1.7;
     }
     .site-footer {
       background: var(--navy);
@@ -138,13 +179,42 @@
       font-size: 0.75rem;
       color: var(--text-lt2);
     }
-    .site-footer a:hover { color: var(--copper); }
-    .representative-note {
+    .site-footer a:hover { color: var(--red); }
+    .node-tag {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      margin-bottom: 0.2rem;
+    }
+    .node-id-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+      margin: 0.75rem 0;
+    }
+    .contradict-box {
+      background: oklch(48% 0.15 25 / 0.07);
+      border: 1px solid oklch(48% 0.15 25 / 0.25);
+      padding: 1rem 1.25rem;
+      margin-top: 0.75rem;
+    }
+    .contradict-head {
+      font-family: 'Archivo', system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--red);
+      margin-bottom: 0.5rem;
+    }
+    .contradict-body {
       font-family: 'Bitter', Georgia, serif;
-      font-size: 0.8rem;
-      font-style: italic;
-      color: var(--text-3);
-      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--text-2);
+      line-height: 1.6;
     }
   </style>
 </head>
@@ -162,197 +232,296 @@
   </nav>
 
   <div class="article-page">
-    <div class="article-hero" style="border-top: 4px solid var(--red);">
-      <p class="back-link"><a href="../#cases">← All cases</a></p>
-      <p class="article-eye">Use Case 02 · Security Intelligence</p>
-      <h1 class="article-title">Operation NightShift</h1>
-      <p class="article-sub">A cross-referenced vulnerability disclosure and live network telemetry triggered a graph-driven security investigation — reconstructing a 3-hop attack chain, quantifying blast radius, and sealing the post-mortem evidence in under four hours.</p>
+    <div class="article-hero">
+      <p class="back-link"><a href="../index.html#cases">← All Cases</a></p>
+      <p class="article-eye">Use Case 02 · Security Operations</p>
+      <h1 class="article-title">NightShift: Security Investigations That Never Forget</h1>
+      <p class="article-sub">How AION gives a security operations agent a persistent, causally-linked memory of every investigation — so attacker campaigns that span weeks are never lost between shifts.</p>
       <div class="article-meta">
-        <span class="meta-item"><span class="meta-label">Primitives</span><span class="meta-val">7 MCP tools</span></span>
-        <span class="meta-item"><span class="meta-label">Attack chain</span><span class="meta-val">3 hops</span></span>
-        <span class="meta-item"><span class="meta-label">Blast radius</span><span class="meta-val">7 nodes</span></span>
-        <span class="meta-item"><span class="meta-label">Output</span><span class="meta-val">Sealed post-mortem</span></span>
+        <span class="meta-item"><span class="meta-label">Primitives</span><span class="meta-val">9 MCP tools</span></span>
+        <span class="meta-item"><span class="meta-label">Nodes</span><span class="meta-val">31</span></span>
+        <span class="meta-item"><span class="meta-label">Edges</span><span class="meta-val">87</span></span>
+        <span class="meta-item"><span class="meta-label">Output</span><span class="meta-val">Signed incident record + IOC propagation</span></span>
       </div>
     </div>
 
     <div class="article-body">
 
-      <h3>Incident Context</h3>
-      <p>At 02:17 local time, a network intrusion detection system flagged anomalous outbound traffic from a production service cluster. The pattern was distinctive: small, regularly-timed packets to an unfamiliar external endpoint, consistent with a command-and-control beacon. The on-call engineer's first question was not whether an incident had occurred — that much was clear — but <em>how</em>. What was the attack chain? Where did the adversary enter, and what could they reach from there?</p>
+      <h3>The Problem: Institutional Amnesia</h3>
+      <p data-anim data-delay="1">SOC analysts work in shifts. Alerts open and close. Notes accumulate in tickets that are archived, reassigned, or simply forgotten when a case goes cold. When a new alert fires two weeks later — same IP, different subnet — the next analyst starts from scratch. There is no institutional memory of what that IP did before, who it touched, or what the response was.</p>
 
-      <p>The answer was already partially documented. Six weeks earlier, a CoWiki page had been published to the internal knowledge base: a detailed disclosure of a memory safety vulnerability in a binary that ran on the affected cluster. The disclosure included a proof-of-concept exploit payload hash, a list of affected versions, and a recommendation for remediation. The patch had been scheduled but not yet deployed.</p>
+      <p data-anim data-delay="2">Attackers have learned to exploit this. Slow-burn campaigns deliberately spread activity across time boundaries: a failed authentication attempt on Monday, lateral movement on Thursday, data staging over the weekend. Each event looks isolated. The pattern is only visible if you can hold all of it in memory simultaneously — and correlate across the gaps.</p>
 
-      <p>Both the vulnerability disclosure and the live incident data were in AION. The investigation began by connecting them.</p>
+      <p data-anim data-delay="3">NightShift is a security operations agent built on AION. It uses <code>aion_annotate</code> to create a signed, content-addressed node for every observable event. It uses <code>aion_link</code> to build causal chains between those events in real time. It uses <code>aion_recall</code> to surface every relevant prior observation the moment a new signal arrives. The investigation never starts from scratch — it resumes from everything AION already knows.</p>
 
-      <h3>Node Inventory</h3>
-      <p>The investigation ingested four primary node categories. The CVE disclosure node had already been created by the CoWiki authoring flow — it was a content-addressed capsule signed by the security researcher who wrote the post. The binary node, network telemetry nodes, and exploit payload node were ingested fresh at incident time via <code>aion_annotate</code>.</p>
+      <h3>Initial Detection: Three Events, One Campaign</h3>
+      <p data-anim>A failed authentication attempt against a service account triggered NightShift at 02:17 UTC. The agent annotated the event immediately, assigning it a BLAKE3 content address. Within four minutes, a second event arrived: internal lateral movement to a production database using reused credentials. Twenty-two minutes after that, a third: 2.3 GB written to a hidden temporary directory consistent with pre-exfiltration staging.</p>
 
-      <div class="node-inventory">
-        <div class="node-pill"><span class="node-dot"></span><span>cve-disclosure</span></div>
-        <div class="node-pill"><span class="node-dot"></span><span>affected-binary</span></div>
-        <div class="node-pill"><span class="node-dot"></span><span>exploit-payload</span></div>
-        <div class="node-pill"><span class="node-dot"></span><span>network-telemetry-01</span></div>
-        <div class="node-pill"><span class="node-dot"></span><span>network-telemetry-02</span></div>
-        <div class="node-pill"><span class="node-dot"></span><span>internal-service-A</span></div>
-        <div class="node-pill"><span class="node-dot"></span><span>internal-service-B</span></div>
-        <div class="node-pill"><span class="node-dot"></span><span>lateral-host-01</span></div>
-        <div class="node-pill"><span class="node-dot"></span><span>c2-beacon-endpoint</span></div>
+      <p data-anim data-delay="1">Each event was annotated as a discrete, signed node before any correlation was attempted. The content address is the node's identity — immutable, verifiable, and chain-linked in the subsequent snapshot.</p>
+
+      <div class="result-block" data-anim data-delay="2">
+        <div class="result-title red">Step 01 · Initial Annotation — aion_annotate × 3</div>
+        <div class="prim-chips">
+          <span class="pchip red">aion_annotate</span>
+        </div>
+        <div class="node-id-block">
+          <div>
+            <div class="node-tag">Event 1 — Failed Authentication</div>
+            <div style="font-family:'Bitter',Georgia,serif;font-size:0.82rem;color:var(--text-2);margin-bottom:0.3rem;">"failed-auth-attempt: user=svc-deploy, src=185.220.101.42, time=02:17:33Z"</div>
+            <div class="hash">NodeId: d4e5f6789012345678901234567890123456789012345678901234abcde1f2a3</div>
+          </div>
+          <div>
+            <div class="node-tag">Event 2 — Lateral Movement</div>
+            <div style="font-family:'Bitter',Georgia,serif;font-size:0.82rem;color:var(--text-2);margin-bottom:0.3rem;">"lateral-move: internal pivot to db-prod-03, credentials reused"</div>
+            <div class="hash">NodeId: e5f6789012345678901234567890123456789012345678901234abcde1f2a3b4</div>
+          </div>
+          <div>
+            <div class="node-tag">Event 3 — Data Staging</div>
+            <div style="font-family:'Bitter',Georgia,serif;font-size:0.82rem;color:var(--text-2);margin-bottom:0.3rem;">"data-staging: 2.3GB written to /tmp/.cache/sync, exfil suspected"</div>
+            <div class="hash">NodeId: f6789012345678901234567890123456789012345678901234abcde1f2a3b4c5</div>
+          </div>
+        </div>
+        <div class="alert-badge">
+          <span class="alert-dot"></span>
+          <span class="alert-text">3 nodes annotated — campaign clock started</span>
+        </div>
       </div>
 
-      <p>Typed edges were drawn immediately: <code>kind="exploits"</code> from exploit-payload to cve-disclosure; <code>kind="affects"</code> from cve-disclosure to affected-binary; <code>kind="observed-on"</code> from network-telemetry-01 to internal-service-A. The graph was wired before any analytical pass began.</p>
+      <h3>Causal Chain Construction</h3>
+      <p data-anim>With three discrete events annotated, NightShift called <code>aion_link</code> to construct the causal chain. Edge semantics are explicit: each link carries an edge kind (<code>causal</code> or <code>temporal</code>) and a human-readable rationale encoded into the edge metadata. These links are signed alongside the nodes — they cannot be added retroactively without breaking the chain.</p>
 
-      <h3>Step 1 · Attack Chain: aion_path</h3>
-      <p>The first question was structural: what is the shortest path from the CVE disclosure — the publicly available knowledge that enabled this attack — to the compromised service? <code>aion_path</code> was called with a causal constraint, traversing only edges typed as causal, exploits, or affects.</p>
+      <p data-anim data-delay="1">The third link — from data-staging back to failed-auth — encodes a cyclical probe pattern. The attacker probed, staged, then probed again from the same source. This cycle is not an error in the graph; it is a finding. <code>aion_contradictions</code> will surface it explicitly in a later pass.</p>
 
-      <div class="result-block">
-        <div class="result-title">aion_path — CVE Disclosure → Affected Service</div>
-        <div class="prim-chips"><span class="pchip">aion_path</span></div>
+      <div class="result-block" data-anim data-delay="2">
+        <div class="result-title red">Step 02 · Attack Timeline — aion_link × 3</div>
+        <div class="prim-chips">
+          <span class="pchip red">aion_link</span>
+        </div>
+        <div class="chain" style="margin-bottom: 0.75rem;">
+          <span class="cn">failed-auth</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cl">[causal]</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cn">lateral-move</span>
+          <span class="cl" style="margin-left:0.25rem;">"same src IP, 4-min gap"</span>
+        </div>
+        <div class="chain" style="margin-bottom: 0.75rem;">
+          <span class="cn">lateral-move</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cl">[causal]</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cn">data-staging</span>
+          <span class="cl" style="margin-left:0.25rem;">"same process tree"</span>
+        </div>
         <div class="chain">
-          <span class="cn">cve-disclosure</span>
-          <span class="ca">→</span>
-          <span class="cl">[exploited-by]</span>
-          <span class="ca">→</span>
-          <span class="cn">exploit-payload</span>
-          <span class="ca">→</span>
-          <span class="cl">[affects]</span>
-          <span class="ca">→</span>
-          <span class="cn">affected-binary</span>
-          <span class="ca">→</span>
-          <span class="cl">[runs-on]</span>
-          <span class="ca">→</span>
-          <span class="cn">internal-service-A</span>
+          <span class="cn">data-staging</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cl">[temporal]</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cn">failed-auth</span>
+          <span class="cl" style="margin-left:0.25rem;">"cyclical probe pattern"</span>
         </div>
-        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">3 hops. The attack chain runs from publicly available knowledge through weaponization to the compromised host. Each hop is a typed, graph-traversable causal link. The chain is not inferred — it is read directly from the edge set.</p>
-        <p class="representative-note">Outputs above are representative of the methodology; specific hash values omitted from this operational summary.</p>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">3 edges established. Edge kinds recorded: 2 causal, 1 temporal. The temporal back-edge creates a cycle — flagged for contradiction analysis in Step 07.</p>
       </div>
 
-      <h3>Step 2 · Blast Radius: aion_impact</h3>
-      <p>With the entry point confirmed, the investigation needed to quantify exposure. From internal-service-A — the beachhead host — what could an adversary with a foothold reach, and at what depth? <code>aion_impact</code> traversed forward from the compromised service with a 3-hop constraint.</p>
+      <h3>Impact Analysis: Blast Radius</h3>
+      <p data-anim>Before taking any response action, NightShift needed to know the full blast radius. How far could the initial failed authentication propagate through the graph? <code>aion_impact</code> performed a forward traversal from the failed-auth node to a maximum depth of 4, returning every reachable node ranked by depth and edge kind.</p>
 
-      <div class="result-block">
-        <div class="result-title">aion_impact — internal-service-A, forward, 3 hops</div>
-        <div class="prim-chips"><span class="pchip">aion_impact</span></div>
-        <ul class="finding-list">
-          <li class="finding-item"><span class="f-num">D1</span><span>internal-service-B — directly reachable via service mesh; shares authentication context</span></li>
-          <li class="finding-item"><span class="f-num">D1</span><span>lateral-host-01 — adjacent compute node; no network segmentation boundary</span></li>
-          <li class="finding-item"><span class="f-num">D2</span><span>network-telemetry-02 — telemetry collector reachable from lateral-host-01</span></li>
-          <li class="finding-item"><span class="f-num">D2</span><span>credential-store-ref — referenced by internal-service-B; indirect exposure</span></li>
-          <li class="finding-item"><span class="f-num">D3</span><span>logging-aggregator — reachable via telemetry path; log injection surface</span></li>
-          <li class="finding-item"><span class="f-num">D3</span><span>config-management-node — reached via lateral host chain</span></li>
-          <li class="finding-item"><span class="f-num">D3</span><span>data-pipeline-ingress — downstream of service-B; potential exfiltration path</span></li>
-        </ul>
-        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">7 nodes reachable within 3 hops. The blast radius extended significantly beyond the initial compromise point, revealing that insufficient network segmentation allowed lateral movement across both compute and telemetry planes.</p>
+      <div class="result-block" data-anim data-delay="1">
+        <div class="result-title red">Step 03 · Blast Radius — aion_impact from failed-auth, depth 4</div>
+        <div class="prim-chips">
+          <span class="pchip red">aion_impact</span>
+        </div>
+        <div class="depth-row">
+          <span class="depth-label">DEPTH 1</span>
+          <span class="depth-node">lateral-move</span>
+          <span class="depth-kind">causal</span>
+        </div>
+        <div class="depth-row">
+          <span class="depth-label">DEPTH 2</span>
+          <span class="depth-node">data-staging</span>
+          <span class="depth-kind">causal</span>
+        </div>
+        <div class="depth-row">
+          <span class="depth-label">DEPTH 2</span>
+          <span class="depth-node">db-prod-03</span>
+          <span class="depth-kind">exposure</span>
+        </div>
+        <div class="depth-row">
+          <span class="depth-label">DEPTH 3</span>
+          <span class="depth-node">backup-service</span>
+          <span class="depth-kind">transitive</span>
+        </div>
+        <div class="depth-row">
+          <span class="depth-label">DEPTH 3</span>
+          <span class="depth-node">audit-log-sink</span>
+          <span class="depth-kind">downstream</span>
+        </div>
+        <div class="depth-row" style="border-bottom:none;">
+          <span class="depth-label">DEPTH 4</span>
+          <span class="depth-node cn-red">s3-exfil-endpoint</span>
+          <span class="depth-kind">suspected</span>
+        </div>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">6 nodes reachable within 4 hops. The suspected exfiltration endpoint appears at depth 4 — reachable from the initial probe through a purely causal chain. The database, backup service, and audit sink are all exposed at depths 2 and 3.</p>
       </div>
 
-      <h3>Step 3 · Cluster Detection: aion_community</h3>
-      <p>The impact analysis identified seven reachable nodes — but were they a coherent cluster, or did they span multiple independent sub-networks with different risk profiles? <code>aion_community</code> partitioned the full node set.</p>
+      <h3>Path Discovery: Tracing the Attacker's Route</h3>
+      <p data-anim><code>aion_path</code> computed the shortest graph path from the attacker's source IP to the suspected exfiltration endpoint. The path traverses exactly 3 hops, crossing two causal edges and one provenance edge. This is the route NightShift uses to construct the incident narrative: a human-readable, graph-verified account of how the attacker moved from initial access to exfiltration.</p>
 
-      <div class="result-block">
-        <div class="result-title">aion_community — Infrastructure Partition</div>
-        <div class="prim-chips"><span class="pchip">aion_community</span></div>
-        <p style="font-size:0.85rem;color:var(--text-2);">The algorithm identified a single primary cluster containing the compromised service, all reachable downstream nodes, and the network telemetry collectors. The c2-beacon-endpoint and exploit-payload nodes formed a distinct external cluster with a single inbound edge — the connection through which the exploit was delivered.</p>
-        <p style="font-size:0.85rem;color:var(--text-2);margin-top:0.5rem;">Cluster partitioning answered a critical containment question: which nodes could be isolated together without severing unrelated infrastructure dependencies. The primary cluster boundary defined the containment perimeter.</p>
-        <p class="representative-note">Community identifiers omitted from this operational summary.</p>
+      <div class="result-block" data-anim data-delay="1">
+        <div class="result-title red">Step 04 · Movement Trace — aion_path: 185.220.101.42 → s3-exfil-endpoint</div>
+        <div class="prim-chips">
+          <span class="pchip red">aion_path</span>
+        </div>
+        <div class="chain" style="flex-wrap:wrap; gap:0.4rem 0.5rem;">
+          <span class="cn">185.220.101.42</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cl">[causal]</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cn">failed-auth</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cl">[causal]</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cn">lateral-move</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cl">[causal]</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cn">data-staging</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cl">[provenance]</span>
+          <span class="ca" style="color:var(--red);">→</span>
+          <span class="cn cn-red">s3-exfil-endpoint</span>
+        </div>
+        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">hops: 3 &nbsp;|&nbsp; edge kinds: causal, causal, provenance. The provenance edge on the final hop indicates that the exfiltration endpoint was written by data-staging — not merely adjacent to it. Exfiltration is confirmed structurally, not by inference.</p>
       </div>
 
-      <div class="alert-callout">
-        <p><strong>Containment decision:</strong> The community boundary identified by <code>aion_community</code> was used directly to scope the emergency network isolation. Every node in the primary cluster was isolated before the end of the incident response window.</p>
-      </div>
+      <h3>Policy Action: Blocking the Source IP</h3>
+      <p data-anim>With an active exfiltration campaign confirmed, NightShift invoked <code>aion_deny</code> against the attacker's IP node. The denial propagated automatically downstream through the graph: every node reachable from the blocked node inherited the policy restriction. Six downstream nodes were locked. The denial is cryptographically recorded — it appears in the subsequent snapshot digest and cannot be silently reversed.</p>
 
-      <h3>Step 4 · Historical Pattern: aion_recall</h3>
-      <p>Was this the first time this vulnerability class had appeared in the environment? <code>aion_recall</code> was seeded from the cve-disclosure and exploit-payload nodes, propagating activation across the full historical graph — including nodes from previous investigation contexts that had not been part of the initial ingestion for this incident.</p>
-
-      <div class="result-block">
-        <div class="result-title">aion_recall — Seeds: cve-disclosure + exploit-payload</div>
-        <div class="prim-chips"><span class="pchip">aion_recall</span></div>
-        <p style="font-size:0.85rem;color:var(--text-2);">Spreading activation surfaced three related incidents from the historical graph:</p>
-        <ul class="finding-list" style="margin-top:0.5rem;">
-          <li class="finding-item"><span class="f-num">01</span><span><strong>Q3 2024 staging incident</strong> — a binary from the same vendor exhibited anomalous behavior in a staging environment; closed as a misconfiguration. Activation score: 0.081. The exploit-payload hash overlaps with tooling observed in that incident.</span></li>
-          <li class="finding-item"><span class="f-num">02</span><span><strong>CVE sibling disclosure</strong> — a related vulnerability in the same binary family, disclosed eight months prior, was patched but not fully deployed to all cluster nodes. Activation score: 0.064. At least one lateral host ran the unpatched version.</span></li>
-          <li class="finding-item"><span class="f-num">03</span><span><strong>C2 infrastructure overlap</strong> — the beacon endpoint IP appeared in a threat intelligence node from a previous investigation context, associated with a known initial access broker. Activation score: 0.042.</span></li>
-        </ul>
-        <p style="margin-top:0.75rem;font-size:0.85rem;color:var(--text-2);">None of these connections were visible to the on-call engineer at incident time. They emerged from the graph's implicit structure, surfaced by spreading activation without any manual cross-referencing.</p>
-      </div>
-
-      <h3>Step 5 · Incident Timeline: aion_journal_append</h3>
-      <p>As the investigation progressed, each significant event was appended to the incident journal. The journal provides an ordered temporal record — not a log file, but a structured, content-addressed sequence of episodes, each linked to the nodes it references.</p>
-
-      <div class="timeline-block">
-        <div class="timeline-entry">
-          <span class="tl-time">T+00:00</span>
-          <span class="tl-event"><strong>IDS alert received.</strong> Anomalous outbound traffic flagged on internal-service-A. Journal entry created; node linked.</span>
+      <div class="result-block" data-anim data-delay="1">
+        <div class="result-title red">Step 05 · Policy Enforcement — aion_deny</div>
+        <div class="prim-chips">
+          <span class="pchip red">aion_deny</span>
         </div>
-        <div class="timeline-entry">
-          <span class="tl-time">T+00:14</span>
-          <span class="tl-event"><strong>CVE cross-reference identified.</strong> CoWiki disclosure node matched to exploit payload hash. <code>aion_link</code> called to connect the two contexts.</span>
+        <div style="font-family:'Bitter',Georgia,serif;font-size:0.85rem;color:var(--text-2);margin-bottom:0.5rem;">
+          node=<strong style="color:var(--text);">185.220.101.42-block</strong>&ensp;reason=<em>"active exfil campaign"</em>
         </div>
-        <div class="timeline-entry">
-          <span class="tl-time">T+00:31</span>
-          <span class="tl-event"><strong>Attack chain reconstructed.</strong> 3-hop path confirmed via <code>aion_path</code>. On-call engineer briefed; incident declared P1.</span>
-        </div>
-        <div class="timeline-entry">
-          <span class="tl-time">T+00:52</span>
-          <span class="tl-event"><strong>Blast radius quantified.</strong> 7 nodes reachable within 3 hops. Containment perimeter defined by community detection output.</span>
-        </div>
-        <div class="timeline-entry">
-          <span class="tl-time">T+01:18</span>
-          <span class="tl-event"><strong>Network isolation applied.</strong> Primary cluster segmented. C2 beacon traffic blocked at perimeter.</span>
-        </div>
-        <div class="timeline-entry">
-          <span class="tl-time">T+03:44</span>
-          <span class="tl-event"><strong>Post-mortem draft complete.</strong> All findings, node links, and timeline entries recorded. Snapshot requested.</span>
+        <div style="font-size:0.82rem;color:var(--text-2);margin-bottom:0.3rem;">→ propagated to: <strong style="color:var(--text);">lateral-move</strong>, <strong style="color:var(--text);">data-staging</strong></div>
+        <div class="alert-badge" style="margin-top:0.75rem;">
+          <span class="alert-dot"></span>
+          <span class="alert-text">downstream nodes locked: 6</span>
         </div>
       </div>
 
-      <h3>Step 6 · Evidence Seal: aion_snapshot</h3>
-      <p>At the conclusion of the investigation, the full incident context — every node, edge, and journal entry — was sealed with <code>aion_snapshot</code>. The snapshot digest and Ed25519 signature were attached to the post-mortem document and filed with the security operations record. The sealed state is the authoritative record of what the investigation knew at close, and when it knew it.</p>
+      <h3>Recall Across Shifts: The IP Returns</h3>
+      <p data-anim>Fourteen days later, a different analyst on a different subnet received a new alert. The source IP was the same: 185.220.101.42. Without AION, this would be treated as a fresh incident — a clean slate. NightShift called <code>aion_recall</code> on the IP string before any other action.</p>
 
-      <div class="result-block" style="background:var(--navy-2);">
-        <div class="result-title" style="color:var(--copper);">aion_snapshot · Post-Mortem Seal</div>
-        <div class="seal-grid" style="display:grid;grid-template-columns:90px 1fr;gap:0.6rem;align-items:start;font-size:0.8rem;">
-          <span class="seal-key" style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);">Status</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-lt2);">Sealed · Ed25519 + BLAKE3-chained</span>
-          <span class="seal-key" style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);">Contents</span>
-          <span style="font-family:'Bitter',Georgia,serif;font-size:0.8rem;color:var(--text-lt2);">All incident nodes, typed edges, 6-entry journal, community partition, path and impact results</span>
-          <span class="seal-key" style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.6rem;text-transform:uppercase;letter-spacing:0.12em;color:var(--text-3);">Purpose</span>
-          <span style="font-family:'Bitter',Georgia,serif;font-size:0.8rem;color:var(--text-lt2);">Post-mortem filing · regulatory record · tamper-evident chain of custody</span>
+      <p data-anim data-delay="1">The recall pass propagated spreading activation through the graph from the query term, returning every node with a similarity score above the threshold. The three nodes from the original campaign surfaced immediately — along with the historical note that this IP had been seen 14 days earlier on a different subnet, and that a denial was still active across 6 downstream nodes. The new alert was not a fresh incident. It was a continuation.</p>
+
+      <div class="result-block" data-anim data-delay="2">
+        <div class="result-title red">Step 06 · Cross-Shift Recall — aion_recall "185.220.101.42"</div>
+        <div class="prim-chips">
+          <span class="pchip red">aion_recall</span>
         </div>
-        <div class="valid-badge" style="margin-top:1rem;display:inline-flex;align-items:center;gap:0.5rem;background:oklch(52% 0.14 150 / 0.1);padding:0.5rem 1rem;">
-          <span class="valid-dot" style="width:8px;height:8px;border-radius:50%;background:var(--green);flex-shrink:0;"></span>
-          <span class="valid-text" style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--green);">Signature valid · tamper-evident</span>
+        <div class="recall-row">
+          <span class="recall-node">failed-auth</span>
+          <span class="recall-score">1.00</span>
+        </div>
+        <div class="recall-row">
+          <span class="recall-node">lateral-move</span>
+          <span class="recall-score">0.89</span>
+        </div>
+        <div class="recall-row" style="border-bottom:none;">
+          <span class="recall-node">data-staging</span>
+          <span class="recall-score dim">0.77</span>
+        </div>
+        <div style="margin-top:1rem;padding:0.75rem;background:oklch(48% 0.15 25 / 0.07);border-left:3px solid var(--red);">
+          <div style="font-family:'Archivo',sans-serif;font-weight:700;font-size:0.7rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--red);margin-bottom:0.4rem;">Historical Match</div>
+          <div style="font-family:'Bitter',Georgia,serif;font-size:0.85rem;color:var(--text-2);">Same IP seen 14 days ago in a different subnet. Campaign is ongoing. Denial propagation still active across 6 nodes. Incident not closed.</div>
+        </div>
+      </div>
+
+      <h3>Contradiction Detection: The Impossible Claim</h3>
+      <p data-anim>The data-staging node carried a metadata annotation from a prior automated scanner: "no external connections detected." But the graph already contained a provenance edge from s3-exfil-endpoint back to data-staging — meaning the exfiltration endpoint was provably written by that process. The two claims are mutually exclusive.</p>
+
+      <p data-anim data-delay="1"><code>aion_contradictions</code> detected this cycle automatically. The contradiction is not a data quality problem — it is a finding in its own right. The scanner's claim was either wrong, or it was deliberately planted to obscure attribution. Either way, it now appears in the signed incident record, and the signed edge takes precedence over the unsigned scanner annotation.</p>
+
+      <div class="result-block" data-anim data-delay="2">
+        <div class="result-title red">Step 07 · Contradiction Detection — aion_contradictions</div>
+        <div class="prim-chips">
+          <span class="pchip red">aion_contradictions</span>
+        </div>
+        <div class="chain" style="margin-bottom:0.75rem;">
+          <span class="cn">data-staging</span>
+          <span class="ca" style="color:var(--red);">↔</span>
+          <span class="cn">s3-exfil-endpoint</span>
+        </div>
+        <div class="contradict-box">
+          <div class="contradict-head">Temporal Cycle — Severity: High</div>
+          <div class="contradict-body">Cycle detected: data-staging node claims "no external connections" — but s3-exfil-endpoint carries a provenance edge TO data-staging. Both claims cannot simultaneously be true. The provenance edge is cryptographically signed. The scanner claim is unsigned. Signed record takes precedence.</div>
+        </div>
+      </div>
+
+      <h3>Snapshot: Sealing the Incident Record</h3>
+      <p data-anim>Following all seven analytical passes, NightShift sealed the investigation with <code>aion_snapshot</code>. The snapshot captures the full node and edge state as a BLAKE3-chained, Ed25519-signed digest. This seal is the tamper-evident chain of custody for the incident record — submitted simultaneously to the SIEM, the incident tracker, and the compliance log. Any future analyst querying this campaign finds the sealed snapshot as the authoritative ground truth.</p>
+
+      <p data-anim data-delay="1">The denial of the source IP is encoded in this digest. The contradiction between the scanner claim and the provenance edge is encoded in this digest. Every causal link is encoded in this digest. Nothing can be silently revised.</p>
+
+      <div class="result-block dark-block" data-anim data-delay="2">
+        <div class="result-title">aion_snapshot · Incident Seal</div>
+        <div class="seal-grid">
+          <span class="seal-key">Digest</span>
+          <span class="seal-val">2e8f1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f7a9b1c3d5e7f9a1b3c5d7e9f</span>
+          <span class="seal-key">Signature</span>
+          <span class="seal-val">1a3b5c7d9e1f3a5b7c9d1e3f5a7b9c1d3e5f7a9b1c3d5e7f9a1b3c5d7e9f1a3b</span>
+          <span class="seal-key">Nodes</span>
+          <span class="seal-val">31</span>
+          <span class="seal-key">Edges</span>
+          <span class="seal-val">87</span>
+          <span class="seal-key">Valid</span>
+          <span class="seal-val">true</span>
+        </div>
+        <div class="valid-badge" style="margin-top:1rem;">
+          <span class="valid-dot"></span>
+          <span class="valid-text">Signature valid · Ed25519 · BLAKE3-chained</span>
         </div>
       </div>
 
       <h3>Key Findings</h3>
-      <ul class="finding-list">
+      <ul class="finding-list" data-anim>
         <li class="finding-item">
           <span class="f-num">01</span>
-          <span><strong>Attack chain reconstructed in 31 minutes.</strong> The 3-hop causal path from CVE disclosure to compromised service was identified via <code>aion_path</code> without manual log correlation. The connection to the CoWiki disclosure was made automatically because both nodes lived in the same graph.</span>
+          <span><strong>Three-event causal chain built in real time.</strong> Failed authentication, lateral movement, and data staging were causally linked within minutes of each event — before any shift change could break the investigative thread.</span>
         </li>
         <li class="finding-item">
           <span class="f-num">02</span>
-          <span><strong>Blast radius: 7 downstream nodes within 3 hops.</strong> The impact analysis revealed that the compromised host had reachable access to credential stores, data pipelines, and logging infrastructure — a significantly larger exposure than initial intuition suggested.</span>
+          <span><strong>Blast radius extended to 6 nodes across 4 hops.</strong> The database, backup service, audit sink, and exfiltration endpoint were all identified as exposed before any manual triage began. Structural exposure quantified, not estimated.</span>
         </li>
         <li class="finding-item">
           <span class="f-num">03</span>
-          <span><strong>Containment perimeter defined algorithmically.</strong> Community detection identified the cluster boundary without manual grouping. The isolation decision followed directly from the graph output.</span>
+          <span><strong>Cross-shift recall surfaced the campaign 14 days later.</strong> When the same IP reappeared on a different subnet, NightShift matched it against the prior investigation in a single recall pass — no manual pivoting, no institutional knowledge required.</span>
         </li>
         <li class="finding-item">
           <span class="f-num">04</span>
-          <span><strong>Three related historical incidents surfaced.</strong> Spreading activation revealed a Q3 2024 staging anomaly, an unpatched sibling CVE, and a C2 infrastructure overlap — none visible without cross-graph query.</span>
+          <span><strong>Policy denial propagated to 6 downstream nodes automatically.</strong> Blocking the source IP was a single call. The policy layer handled propagation across the graph. The denial is tamper-evident and appears in the snapshot digest.</span>
         </li>
         <li class="finding-item">
           <span class="f-num">05</span>
-          <span><strong>Tamper-evident post-mortem sealed for filing.</strong> The BLAKE3 + Ed25519 snapshot provides a complete, non-repudiable record of the investigation state at close — suitable for regulatory submission, legal hold, and future reference.</span>
+          <span><strong>Contradiction between scanner claim and signed edge surfaced automatically.</strong> No manual document comparison was needed. The substrate detected the impossible claim against a signed provenance edge and recorded it in the incident record. The signed evidence prevails.</span>
         </li>
       </ul>
+
+      <div class="insight-block" data-anim>
+        <div class="insight-label">Core Insight</div>
+        <div class="insight-body">Attackers rely on institutional amnesia. AION removes it. Every IOC, every causal link, every analyst note is signed, content-addressed, and recallable. When 185.220.101.42 appears 14 days later on a different subnet, NightShift already knows who it is, what it did, which nodes it contaminated, and that a denial is still active. The investigation doesn't restart. It resumes.</div>
+      </div>
 
     </div>
   </div>
 
   <footer class="site-footer">
     <span>AION Cognitive Substrate · v0.5 · 2026</span>
-    <a href="../#cases" style="color:inherit;">← Back to all cases</a>
+    <a href="../index.html#cases" style="color:inherit;">← Back to all cases</a>
   </footer>
   <script src="../js/main.js"></script>
 </body>
